@@ -23,7 +23,7 @@ CREATE TABLE user_accounts (
 -- Stores email verification tokens to validate user email addresses
 CREATE TABLE email_verification_tokens (
     id UUID PRIMARY KEY, -- The .NET Core backend should generate a UUID v7 before inserting
-    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE, -- Link to the user
+    user_id UUID NOT NULL REFERENCES user_accounts(id) ON DELETE CASCADE, -- Link to the user
     verification_code VARCHAR(6) NOT NULL, -- 6-digit verification code
     expires_at TIMESTAMP NOT NULL, -- Expiration timestamp
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
