@@ -1,3 +1,14 @@
+-- Creates the (basehours) database with the appropiate enconding and locale settings
+CREATE DATABASE basehours
+WITH
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'pt_BR.UTF-8'
+    LC_CTYPE = 'pt_BR.UTF-8'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
+
+
 -- Stores user account information, including authentication and verification details
 CREATE TABLE user_accounts (
     id UUID PRIMARY KEY, -- The .NET Core backend should generate a UUID v7 before inserting
