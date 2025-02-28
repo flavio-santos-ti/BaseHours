@@ -1,0 +1,112 @@
+# Arquivos e pastas gerados pelo Visual Studio
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.sln.ide
+*.tsscache
+
+# Arquivos e pastas gerados pelo .NET Core
+bin/
+obj/
+out/
+
+# Arquivos de log
+*.log
+
+# Arquivos de pacotes gerados
+*.nupkg
+*.snupkg
+
+# Arquivos de backup criados pelo sistema operacional
+*.bak
+*.old
+*.orig
+
+# Diretórios temporários
+temp/
+tmp/
+*.tmp
+*.temp
+
+# Arquivos de configuração específicos do usuário
+*.psess
+*.psessproj
+*.launch.json
+
+# Arquivos gerados pelo Docker
+docker-compose.override.yml
+.env
+
+# Arquivos gerados pelo Rider/JetBrains
+.idea/
+*.sln.iml
+
+# Arquivos do sistema operacional
+Thumbs.db
+*.DS_Store
+
+# Arquivos gerados pelo NuGet
+*.nupkg
+project.lock.json
+project.fragment.lock.json
+.nuget/
+
+# Cache do sistema de dependências do Node.js
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Logs de debug do Visual Studio
+*.ilk
+*.ipdb
+*.pdb
+*.pgc
+*.pgd
+
+# Logs de build
+msbuild.log
+
+# Arquivos de publicação
+publish/
+wwwroot/
+dist/
+
+# Arquivos gerados pelo editor
+*.swp
+*.swo
+*~
+
+# Certificados de desenvolvimento
+*.pfx
+*.p12
+
+# Arquivos do Resharper
+_ReSharper.Caches/
+
+# Arquivos do Rider
+.idea/
+
+# Arquivos de cache do Visual Studio Code
+.vscode/
+
+# Arquivos de backup do editor
+*.bak
+
+# Arquivos de projeto específico
+!src/**/*.cs
+!src/**/*.csproj
+
+# Outros arquivos que podem ser ignorados
+*~backup
+*.tmp
+*.temp
+
+# Ignorar arquivos executáveis e bibliotecas
+*.exe
+*.dll
+
+**/appsettings.Development.json
