@@ -71,11 +71,4 @@ public class ClientService : IClientService
         var clients = await _clientRepository.SearchByNameAsync(name);
         return clients.Select(c => new ClientDto { Id = c.Id, Name = c.Name });
     }
-
-
-    public async Task UpdateAsync(ClientDto clientDto)
-    {
-        var client = new Client(clientDto.Id, clientDto.Name);
-        await _clientRepository.UpdateAsync(client);
-    }
 }
