@@ -1,6 +1,6 @@
 # BaseHours
 
-**BaseHours** is a PostgreSQL database designed to manage project time tracking and task management.
+**BaseHours** is an educational project designed to manage project time tracking and personal task management, following the principles of **Clean Architecture**. The project utilizes PostgreSQL as its database and modern technologies to ensure scalability and organization.
 
 ## 📂 Database Structure
 
