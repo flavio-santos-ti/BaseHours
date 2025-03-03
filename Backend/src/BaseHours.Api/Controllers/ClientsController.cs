@@ -15,6 +15,20 @@ public class ClientsController : ControllerBase
         _clientService = clientService;
     }
 
+    [HttpPost]
+    public async Task<IActionResult> Add([FromBody] ClientRequestDto request)
+    {
+        var response = await _clientService.AddAsync(request);
+        return StatusCode(response.StatusCode, response);
+    }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var response = await _clientService.DeleteAsync(id);
+        return StatusCode(response.StatusCode, response);
+    }
+
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -36,20 +50,6 @@ public class ClientsController : ControllerBase
         return Ok(clients);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Add([FromBody] ClientDto clientDto)
-    {
-        try
-        {
-            await _clientService.AddAsync(clientDto);
-            return CreatedAtAction(nameof(GetById), new { id = clientDto.Id }, clientDto);
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new { message = ex.Message }); // Retorna erro 409 se o nome já existir
-        }
-    }
-
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(Guid id, [FromBody] ClientDto clientDto)
     {
@@ -59,13 +59,6 @@ public class ClientsController : ControllerBase
         }
 
         await _clientService.UpdateAsync(clientDto);
-        return NoContent();
-    }
-
-    [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> Delete(Guid id)
-    {
-        await _clientService.DeleteAsync(id);
         return NoContent();
     }
 }

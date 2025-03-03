@@ -2,6 +2,9 @@
 using BaseHours.Application.Interfaces;
 using BaseHours.Domain.Entities;
 using BaseHours.Domain.Interfaces;
+using FDS.NetCore.ApiResponse.Models;
+using FDS.NetCore.ApiResponse.Results;
+using FDS.NetCore.ApiResponse.Types;
 
 namespace BaseHours.Application.Services;
 
@@ -12,6 +15,43 @@ public class ClientService : IClientService
     public ClientService(IClientRepository clientRepository)
     {
         _clientRepository = clientRepository;
+    }
+
+    public async Task<Response<ClientDto>> AddAsync(ClientRequestDto request)
+    {
+        if (await _clientRepository.ExistsByNameAsync(request.Name))
+        {
+            return Result.Create<ClientDto>(
+                ActionType.VALIDATION_ERROR,
+                "A client with this name already exists."
+            );
+        }
+
+        var client = new Client(Guid.NewGuid(), request.Name);
+        await _clientRepository.AddAsync(client);
+        var clientDto = new ClientDto { Id = client.Id, Name = client.Name };
+
+        return Result.Create(ActionType.CREATE, "Client created successfully.", clientDto);
+    }
+
+    public async Task<Response<bool>> DeleteAsync(Guid id)
+    {
+        var client = await _clientRepository.GetByIdAsync(id);
+
+        if (client is null)
+        {
+            return Result.Create<bool>(
+                ActionType.NOT_FOUND,
+                "Client not found."
+            );
+        }
+
+        await _clientRepository.DeleteAsync(id);
+
+        return Result.Create<bool>(
+            ActionType.DELETE,
+            "Client deleted successfully."
+        );
     }
 
     public async Task<IEnumerable<ClientDto>> GetAllAsync()
@@ -32,25 +72,11 @@ public class ClientService : IClientService
         return clients.Select(c => new ClientDto { Id = c.Id, Name = c.Name });
     }
 
-    public async Task AddAsync(ClientDto clientDto)
-    {
-        if (await _clientRepository.ExistsByNameAsync(clientDto.Name))
-        {
-            throw new InvalidOperationException("A client with this name already exists.");
-        }
-
-        var client = new Client(Guid.NewGuid(), clientDto.Name);
-        await _clientRepository.AddAsync(client);
-    }
-
     public async Task UpdateAsync(ClientDto clientDto)
     {
         var client = new Client(clientDto.Id, clientDto.Name);
         await _clientRepository.UpdateAsync(client);
     }
 
-    public async Task DeleteAsync(Guid id)
-    {
-        await _clientRepository.DeleteAsync(id);
-    }
+
 }
