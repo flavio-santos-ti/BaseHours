@@ -24,15 +24,30 @@ psql -U postgres -f Scripts/BaseHours.sql
 
 ## 📜 Requirements
 
-- PostgreSQL 13+
+- PostgreSQL 17
+- .NET Core 8
+
+## 🛠 Technologies Used
+
+BaseHOurs is built using the follwing technologies and libraries:
+
+- 🚀 **.NET Core 8**
+- 🟦 **[Microsoft.EntityFrameworkCore (9.0.2)](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore/)**
+- 🔄 **[Npgsql.EntityFrameworkCore.PostgreSQL (9.0.3)](https://www.nuget.org/packages/Npgsql.EntityFrameworkCore.PostgreSQL/)**
+- 🔑 **[Flavio.Santos.UuidV7.NetCore (1.0.2)](https://www.nuget.org/packages/Flavio.Santos.UuidV7.NetCore/)**
+- 📡 **[Flavio.Santos.NetCore.ApiResponse (1.0.1)](https://www.nuget.org/packages/Flavio.Santos.NetCore.ApiResponse/)**
 
 ## 📌 Project Structure
 
 ```
 BaseHours/
+│── Api/                   # (Presentation) API and controllers
+│── Application/           # Use cases and application interfaces
+│── Domain/                # Business entities and rules
+│── Infrastructure/        # Data persistence and repositories
 │── Database/
 │   ├── Scripts/
 │   │   ├── BaseHours.sql  # Database creation script
-│   │   ├── ... other scripts # Additional scripts
-│── README.md
+│   │   ├── ... other scripts
+│── README.md              # Project documentation
 ```
