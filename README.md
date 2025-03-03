@@ -2,6 +2,8 @@
 
 ![.NET Core](https://img.shields.io/badge/.NET%20Core-8.0-blue?logo=dotnet)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17-blue?logo=postgresql)
+![Clean Architecture](https://img.shields.io/badge/Clean%20Architecture-Design%20Pattern-blue)
+![SOLID](https://img.shields.io/badge/SOLID-Design%20Principles-orange)
 
 **BaseHours** is an educational project designed to manage project time tracking and personal task management, following the principles of **Clean Architecture**. The project utilizes PostgreSQL as its database and modern technologies to ensure scalability and organization.
 
