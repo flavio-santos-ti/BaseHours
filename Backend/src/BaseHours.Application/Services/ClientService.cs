@@ -22,8 +22,8 @@ public class ClientService : IClientService
         if (await _clientRepository.ExistsByNameAsync(request.Name))
         {
             return Result.Create<ClientDto>(
-                ActionType.VALIDATION_ERROR,
-                "A client with this name already exists."
+                actionType: ActionType.VALIDATION_ERROR,
+                message: "A client with this name already exists."
             );
         }
 
@@ -31,7 +31,11 @@ public class ClientService : IClientService
         await _clientRepository.AddAsync(client);
         var clientDto = new ClientDto { Id = client.Id, Name = client.Name };
 
-        return Result.Create(ActionType.CREATE, "Client created successfully.", clientDto);
+        return Result.Create(
+            actionType: ActionType.CREATE, 
+            message: "Client created successfully.", 
+            data: clientDto
+        );
     }
 
     public async Task<Response<bool>> DeleteAsync(Guid id)
@@ -41,16 +45,16 @@ public class ClientService : IClientService
         if (client is null)
         {
             return Result.Create<bool>(
-                ActionType.NOT_FOUND,
-                "Client not found."
+                actionType: ActionType.NOT_FOUND,
+                message: "Client not found."
             );
         }
 
         await _clientRepository.DeleteAsync(id);
 
         return Result.Create<bool>(
-            ActionType.DELETE,
-            "Client deleted successfully."
+            actionType: ActionType.DELETE,
+            message: "Client deleted successfully."
         );
     }
 
