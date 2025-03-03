@@ -77,6 +77,4 @@ public class ClientService : IClientService
         var client = new Client(clientDto.Id, clientDto.Name);
         await _clientRepository.UpdateAsync(client);
     }
-
-
 }
