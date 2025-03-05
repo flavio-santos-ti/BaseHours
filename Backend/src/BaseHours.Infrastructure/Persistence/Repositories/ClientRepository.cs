@@ -16,8 +16,10 @@ public class ClientRepository : IClientRepository
     public async Task<Client?> GetByIdAsync(Guid id) =>
         await _context.Clients.FindAsync(id);
 
-    public async Task<IEnumerable<Client>> GetAllAsync() =>
-        await _context.Clients.ToListAsync();
+    public async Task<IEnumerable<Client>> GetAllAsync()
+    {
+        return await _context.Clients.AsNoTracking().ToListAsync();
+    }
 
     public async Task<IEnumerable<Client>> SearchByNameAsync(string name) =>
         await _context.Clients
