@@ -1,5 +1,6 @@
 ﻿using BaseHours.Application.Dtos;
 using BaseHours.Application.Interfaces;
+using FDS.NetCore.ApiResponse.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BaseHours.Api.Controllers;
@@ -32,22 +33,22 @@ public class ClientsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var clients = await _clientService.GetAllAsync();
-        return Ok(clients);
+        var response = await _clientService.GetAllAsync();
+        return StatusCode(response.StatusCode, response);
     }
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
-        var client = await _clientService.GetByIdAsync(id);
-        return client is not null ? Ok(client) : NotFound(new { message = "Client not found" });
+        var response = await _clientService.GetByIdAsync(id);
+        return response is not null ? Ok(response) : NotFound(new { message = "Client not found" });
     }
 
     [HttpGet("search")]
     public async Task<IActionResult> SearchByName([FromQuery] string name)
     {
-        var clients = await _clientService.SearchByNameAsync(name);
-        return Ok(clients);
+        var response = await _clientService.SearchByNameAsync(name);
+        return Ok(response);
     }
 
     [HttpPut("{id:guid}")]

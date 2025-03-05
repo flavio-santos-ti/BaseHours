@@ -58,10 +58,16 @@ public class ClientService : IClientService
         );
     }
 
-    public async Task<IEnumerable<ClientDto>> GetAllAsync()
+    public async Task<Response<IEnumerable<ClientDto>>> GetAllAsync()
     {
         var clients = await _clientRepository.GetAllAsync();
-        return clients.Select(c => new ClientDto { Id = c.Id, Name = c.Name });
+        var clientDtos = clients.Select(c => new ClientDto { Id = c.Id, Name = c.Name });
+
+        return Result.Create(
+            actionType: ActionType.READ,
+            message: clients.Any() ? "Clients retrieved successfully." : "No clients found.",
+            data: clientDtos
+        );
     }
 
     public async Task<ClientDto?> GetByIdAsync(Guid id)
