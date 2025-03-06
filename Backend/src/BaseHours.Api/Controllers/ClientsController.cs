@@ -37,18 +37,18 @@ public class ClientsController : ControllerBase
         return StatusCode(response.StatusCode, response);
     }
 
-    [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetById(Guid id)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(string id)
     {
         var response = await _clientService.GetByIdAsync(id);
-        return response is not null ? Ok(response) : NotFound(new { message = "Client not found" });
+        return StatusCode(response.StatusCode, response);
     }
 
     [HttpGet("search")]
     public async Task<IActionResult> SearchByName([FromQuery] string name)
     {
         var response = await _clientService.SearchByNameAsync(name);
-        return Ok(response);
+        return StatusCode(response.StatusCode, response);
     }
 
     [HttpPut("{id:guid}")]
