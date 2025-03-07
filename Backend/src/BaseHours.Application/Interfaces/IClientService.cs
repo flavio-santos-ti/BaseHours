@@ -10,5 +10,5 @@ public interface IClientService
     Task<Response<IEnumerable<ClientDto>>> GetAllAsync();
     Task<Response<ClientDto>> GetByIdAsync(string id);
     Task<Response<IEnumerable<ClientDto>>> SearchByNameAsync(string name);
-    Task UpdateAsync(ClientDto clientDto);
+    Task<Response<ClientDto>> UpdateAsync(ClientDto clientDto);
 }

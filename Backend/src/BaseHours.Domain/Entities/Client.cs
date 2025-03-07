@@ -19,4 +19,16 @@ public class Client
         Name = !string.IsNullOrWhiteSpace(name) ? name : throw new ArgumentException("Client name cannot be empty.");
         CreatedAt = DateTime.Now;
     }
+
+    public (bool IsValid, string? ErrorMessage) UpdateName(string newName)
+    {
+        if (string.IsNullOrWhiteSpace(newName))
+            return (false, "Name cannot be empty.");
+
+        if (newName.Length < 3)
+            return (false, "Name must have at least 3 characters.");
+
+        Name = newName;
+        return (true, null);
+    }
 }

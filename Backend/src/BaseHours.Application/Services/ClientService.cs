@@ -110,9 +110,33 @@ public class ClientService : IClientService
             data: clientDtos
         );
     }
-    public async Task UpdateAsync(ClientDto clientDto)
+
+    public async Task<Response<ClientDto>> UpdateAsync(ClientDto clientDto)
     {
-        var client = new Client(clientDto.Id, clientDto.Name);
-        await _clientRepository.UpdateAsync(client);
+        var existingClient = await _clientRepository.GetByIdAsync(clientDto.Id);
+        if (existingClient is null)
+        {
+            return Result.Create<ClientDto>(
+                actionType: ActionType.NOT_FOUND,
+                message: "Client not found."
+            );
+        }
+
+        var (isValid, errorMessage) = existingClient.UpdateName(clientDto.Name);
+        if (!isValid)
+        {
+            return Result.Create<ClientDto>(
+                actionType: ActionType.VALIDATION_ERROR,
+                message: errorMessage!
+            );
+        }
+
+        var updatedClientDto = new ClientDto { Id = existingClient.Id, Name = existingClient.Name };
+
+        return Result.Create(
+            actionType: ActionType.UPDATE,
+            message: "Client updated successfully.",
+            data: updatedClientDto
+        );
     }
 }
