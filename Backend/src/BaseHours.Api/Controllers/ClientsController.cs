@@ -2,6 +2,7 @@
 using BaseHours.Application.Interfaces;
 using FDS.NetCore.ApiResponse.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Xml.Linq;
 
 namespace BaseHours.Api.Controllers;
 
@@ -51,15 +52,10 @@ public class ClientsController : ControllerBase
         return StatusCode(response.StatusCode, response);
     }
 
-    [HttpPut("{id:guid}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] ClientDto clientDto)
+    [HttpPut]
+    public async Task<IActionResult> UpdateAsync([FromBody] ClientDto request)
     {
-        if (id != clientDto.Id)
-        {
-            return BadRequest(new { message = "ID mismatch between route and body" });
-        }
-
-        await _clientService.UpdateAsync(clientDto);
-        return NoContent();
+        var response = await _clientService.UpdateAsync(request);
+        return StatusCode(response.StatusCode, response);
     }
 }
