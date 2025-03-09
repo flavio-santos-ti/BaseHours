@@ -8,10 +8,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.3" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\FDS\FDS.DbLogger.PostgreSQL\FDS.DbLogger.PostgreSQL.csproj" />
     <ProjectReference Include="..\BaseHours.Domain\BaseHours.Domain.csproj" />
   </ItemGroup>
 
