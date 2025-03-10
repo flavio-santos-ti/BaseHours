@@ -29,7 +29,7 @@ namespace BaseHours.Configuration
                 var clientRepository = provider.GetRequiredService<IClientRepository>();
                 var auditLogServiceFactory = provider.GetRequiredService<Func<string, IAuditLogService>>();
 
-                return new ClientService(clientRepository, auditLogServiceFactory("Client11"));
+                return new ClientService(clientRepository, auditLogServiceFactory("Client"));
             });
 
             return services;

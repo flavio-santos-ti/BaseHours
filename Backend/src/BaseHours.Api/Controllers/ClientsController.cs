@@ -1,13 +1,13 @@
 ﻿using BaseHours.Application.Dtos;
 using BaseHours.Application.Interfaces;
-using FDS.NetCore.ApiResponse.Models;
+using BaseHours.Infrastructure.Filters;
 using Microsoft.AspNetCore.Mvc;
-using System.Xml.Linq;
 
 namespace BaseHours.Api.Controllers;
 
 [ApiController]
 [Route("api/clients")]
+[ServiceFilter(typeof(AuditLogActionFilter))]
 public class ClientsController : ControllerBase
 {
     private readonly IClientService _clientService;
