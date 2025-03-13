@@ -6,6 +6,8 @@ using FDS.DbLogger.PostgreSQL.Published;
 using FDS.NetCore.ApiResponse.Models;
 using FDS.NetCore.ApiResponse.Results;
 using FDS.NetCore.ApiResponse.Types;
+using FDS.RequestTracking.Storage;
+using Microsoft.AspNetCore.Http;
 
 namespace BaseHours.Application.Services;
 
@@ -13,38 +15,56 @@ public class ClientService : IClientService
 {
     private readonly IClientRepository _clientRepository;
     private readonly IAuditLogService _auditLogService;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public ClientService(IClientRepository clientRepository, IAuditLogService auditLogService)
+    public ClientService(IClientRepository clientRepository, IAuditLogService auditLogService, IHttpContextAccessor httpContextAccessor)
     {
         _clientRepository = clientRepository;
         _auditLogService = auditLogService;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<Response<ClientDto>> AddAsync(ClientRequestDto request)
     {
         try
         {
+            string msg;
+
+            var requestId = _httpContextAccessor.HttpContext?.TraceIdentifier;
+
+            if (!string.IsNullOrEmpty(requestId))
+            {
+                // ⬇ Obtém os dados da requisição armazenados pelo RequestDataFilter
+                var requestData = RequestDataStorage.GetData(requestId);
+
+                if (requestData is not null)
+                {
+                    // ⬇ Persistindo os dados coletados no banco de dados de auditoria
+                    await _auditLogService.LogInfoAsync($"Request Data - {requestData.Method} {requestData.Path}{requestData.QueryParams} - {requestData.Timestamp}");
+
+                    // ⬇ Limpa os dados após a persistência
+                    RequestDataStorage.ClearData(requestId);
+                }
+            }
+
             if (await _clientRepository.ExistsByNameAsync(request.Name))
             {
-                string msg = "A client with this name already exists.";
+                msg = "A client with this name already exists.";
 
                 await _auditLogService.LogValidationErrorAsync(msg, request);
 
-                return Result.Create<ClientDto>(
-                    actionType: ActionType.VALIDATION_ERROR,
-                    message: msg
-                );
+                return Result.CreateValidationError<ClientDto>(msg);
             }
 
             var client = new Client(Guid.NewGuid(), request.Name);
             await _clientRepository.AddAsync(client);
             var clientDto = new ClientDto { Id = client.Id, Name = client.Name };
 
-            return Result.Create(
-                actionType: ActionType.CREATE,
-                message: "Client created successfully.",
-                data: clientDto
-            );
+            msg = "Client created successfully.";
+
+            await _auditLogService.LogCreateAsync(msg, request, clientDto);
+
+            return Result.CreateSuccess("Client created successfully.", clientDto);
         }
         catch (Exception ex)
         {
@@ -184,19 +204,12 @@ public class ClientService : IClientService
             var (isValid, errorMessage) = existingClient.UpdateName(clientDto.Name);
             if (!isValid)
             {
-                return Result.Create<ClientDto>(
-                    actionType: ActionType.VALIDATION_ERROR,
-                    message: errorMessage!
-                );
+                return Result.CreateValidationError<ClientDto>(errorMessage ?? "Unknown validation error");
             }
 
             var updatedClientDto = new ClientDto { Id = existingClient.Id, Name = existingClient.Name };
 
-            return Result.Create(
-                actionType: ActionType.UPDATE,
-                message: "Client updated successfully.",
-                data: updatedClientDto
-            );
+            return Result.CreateSuccess("Client updated successfully.", updatedClientDto);
         }
         catch (Exception ex)
         {
