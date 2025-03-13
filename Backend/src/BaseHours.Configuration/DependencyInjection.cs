@@ -4,6 +4,8 @@ using BaseHours.Domain.Interfaces;
 using BaseHours.Infrastructure.Persistence;
 using BaseHours.Infrastructure.Persistence.Repositories;
 using FDS.DbLogger.PostgreSQL.Published;
+using FDS.RequestTracking.Extensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +21,8 @@ namespace BaseHours.Configuration
         {
             return services
                 .AddInfrastructureLayer(configuration)
-                .AddApplicationLayer();
+                .AddApplicationLayer()
+                .AddRequestTracking();
         }
 
         private static IServiceCollection AddApplicationLayer(this IServiceCollection services)
@@ -28,8 +31,9 @@ namespace BaseHours.Configuration
             {
                 var clientRepository = provider.GetRequiredService<IClientRepository>();
                 var auditLogServiceFactory = provider.GetRequiredService<Func<string, IAuditLogService>>();
+                var httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>(); // ⬅ Adicionando
 
-                return new ClientService(clientRepository, auditLogServiceFactory("Client"));
+                return new ClientService(clientRepository, auditLogServiceFactory("Client"), httpContextAccessor);
             });
 
             return services;
@@ -49,6 +53,8 @@ namespace BaseHours.Configuration
                                            ?? "Host=localhost;Database=AuditLogDb;Username=defaultUser;Password=defaultPass";
 
             services.AddDbLogger(auditLogConnectionString);
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // Registers repositories
             services.AddScoped<IClientRepository, ClientRepository>();
