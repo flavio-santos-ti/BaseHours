@@ -34,15 +34,15 @@ public class ClientService : IClientService
 
             if (!string.IsNullOrEmpty(requestId))
             {
-                // ⬇ Obtém os dados da requisição armazenados pelo RequestDataFilter
+                // Retrieves the request data stored by the RequestDataFilter.
                 var requestData = RequestDataStorage.GetData(requestId);
 
                 if (requestData is not null)
                 {
-                    // ⬇ Persistindo os dados coletados no banco de dados de auditoria
+                    // Persisting the collected data in the audit database.
                     await _auditLogService.LogInfoAsync($"Request Data - {requestData.Method} {requestData.Path}{requestData.QueryParams} - {requestData.Timestamp}");
 
-                    // ⬇ Limpa os dados após a persistência
+                    // Clears the data after persistence.
                     RequestDataStorage.ClearData(requestId);
                 }
             }
