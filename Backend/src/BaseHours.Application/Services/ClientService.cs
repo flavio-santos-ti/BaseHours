@@ -68,10 +68,7 @@ public class ClientService : IClientService
         }
         catch (Exception ex)
         {
-            return Result.Create<ClientDto>(
-                actionType: ActionType.ERROR,
-                message: $"An unexpected error occurred: {ex.Message}"
-            );
+            return Result.CreateError<ClientDto>($"An unexpected error occurred: {ex.Message}");
         }
     }
 
@@ -98,10 +95,7 @@ public class ClientService : IClientService
         }
         catch (Exception ex)
         {
-            return Result.Create<bool>(
-                actionType: ActionType.ERROR,
-                message: $"An unexpected error occurred: {ex.Message}"
-            );
+            return Result.CreateError<bool>($"An unexpected error occurred: {ex.Message}");
         }
     }
 
@@ -120,10 +114,7 @@ public class ClientService : IClientService
         }
         catch (Exception ex)
         {
-            return Result.Create<IEnumerable<ClientDto>>(
-                actionType: ActionType.ERROR,
-                message: $"An unexpected error occurred: {ex.Message}"
-            );
+            return Result.CreateError<IEnumerable<ClientDto>>($"An unexpected error occurred: {ex.Message}");
         }
     }
 
@@ -159,10 +150,7 @@ public class ClientService : IClientService
         }
         catch (Exception ex)
         {
-            return Result.Create<ClientDto>(
-                actionType: ActionType.ERROR,
-                message: $"An unexpected error occurred: {ex.Message}"
-            );
+            return Result.CreateError<ClientDto>($"An unexpected error occurred: {ex.Message}");
         }
     }
 
@@ -181,10 +169,7 @@ public class ClientService : IClientService
         }
         catch (Exception ex)
         {
-            return Result.Create<IEnumerable<ClientDto>>(
-                actionType: ActionType.ERROR,
-                message: $"An unexpected error occurred: {ex.Message}"
-            );
+            return Result.CreateError<IEnumerable<ClientDto>>($"An unexpected error occurred: {ex.Message}");
         }  
     }
 
@@ -213,10 +198,7 @@ public class ClientService : IClientService
         }
         catch (Exception ex)
         {
-            return Result.Create<ClientDto>(
-                actionType: ActionType.ERROR,
-                message: $"An unexpected error occurred: {ex.Message}"
-            );
+            return Result.CreateError<ClientDto>($"An unexpected error occurred: {ex.Message}");
         }
     }
 }
