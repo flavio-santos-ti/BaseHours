@@ -103,11 +103,7 @@ public class ClientService : IClientService
             var clients = await _clientRepository.GetAllAsync();
             var clientDtos = clients.Select(c => new ClientDto { Id = c.Id, Name = c.Name });
 
-            return Result.Create(
-                actionType: ActionType.READ,
-                message: clients.Any() ? "Clients retrieved successfully." : "No clients found.",
-                data: clientDtos
-            );
+            return Result.CreateRead<IEnumerable<ClientDto>>(clients.Any() ? "Clients retrieved successfully." : "No clients found.", clientDtos);
         }
         catch (Exception ex)
         {
@@ -136,11 +132,7 @@ public class ClientService : IClientService
 
             var clientDto = new ClientDto { Id = client.Id, Name = client.Name };
 
-            return Result.Create(
-                actionType: ActionType.READ,
-                message: "Client retrieved successfully.",
-                data: clientDto
-            );
+            return Result.CreateRead<ClientDto>("Client retrieved successfully.", clientDto);
         }
         catch (Exception ex)
         {
@@ -155,11 +147,7 @@ public class ClientService : IClientService
             var clients = await _clientRepository.SearchByNameAsync(name);
             var clientDtos = clients.Select(c => new ClientDto { Id = c.Id, Name = c.Name });
 
-            return Result.Create(
-                actionType: ActionType.READ,
-                message: clients.Any() ? "Clients retrieved successfully." : "No clients found with the given name.",
-                data: clientDtos
-            );
+            return Result.CreateRead<IEnumerable<ClientDto>>(clients.Any() ? "Clients retrieved successfully." : "No clients found with the given name.", clientDtos);
         }
         catch (Exception ex)
         {
