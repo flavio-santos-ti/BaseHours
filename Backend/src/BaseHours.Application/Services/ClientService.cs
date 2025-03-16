@@ -80,10 +80,7 @@ public class ClientService : IClientService
 
             if (client is null)
             {
-                return Result.Create<bool>(
-                    actionType: ActionType.NOT_FOUND,
-                    message: "Client not found."
-                );
+                return Result.CreateNotFound<bool>("Client not found.");
             }
 
             await _clientRepository.DeleteAsync(id);
@@ -134,10 +131,7 @@ public class ClientService : IClientService
 
             if (client is null)
             {
-                return Result.Create<ClientDto>(
-                    actionType: ActionType.NOT_FOUND,
-                    message: "Client not found."
-                );
+                return Result.CreateNotFound<ClientDto>("Client not found.");
             }
 
             var clientDto = new ClientDto { Id = client.Id, Name = client.Name };
@@ -180,10 +174,7 @@ public class ClientService : IClientService
             var existingClient = await _clientRepository.GetByIdAsync(clientDto.Id);
             if (existingClient is null)
             {
-                return Result.Create<ClientDto>(
-                    actionType: ActionType.NOT_FOUND,
-                    message: "Client not found."
-                );
+                return Result.CreateNotFound<ClientDto>("Client not found.");
             }
 
             var (isValid, errorMessage) = existingClient.UpdateName(clientDto.Name);
