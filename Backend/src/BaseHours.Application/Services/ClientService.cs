@@ -114,10 +114,7 @@ public class ClientService : IClientService
         {
             if (!Guid.TryParse(id, out Guid validGuid))
             {
-                return Result.Create<ClientDto>(
-                    actionType: ActionType.VALIDATION_ERROR,
-                    message: "Invalid client ID format."
-                );
+                return Result.CreateValidationError<ClientDto>("Invalid client ID format.");
             }
 
             var client = await _clientRepository.GetByIdAsync(validGuid);
