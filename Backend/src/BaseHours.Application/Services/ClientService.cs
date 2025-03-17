@@ -85,10 +85,7 @@ public class ClientService : IClientService
 
             await _clientRepository.DeleteAsync(id);
 
-            return Result.Create<bool>(
-                actionType: ActionType.DELETE,
-                message: "Client deleted successfully."
-            );
+            return Result.CreateDelete<bool>("Client deleted successfully.");
         }
         catch (Exception ex)
         {
