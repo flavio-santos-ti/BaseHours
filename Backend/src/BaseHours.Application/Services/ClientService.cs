@@ -5,7 +5,6 @@ using BaseHours.Domain.Interfaces;
 using FDS.DbLogger.PostgreSQL.Published;
 using FDS.NetCore.ApiResponse.Models;
 using FDS.NetCore.ApiResponse.Results;
-using FDS.NetCore.ApiResponse.Types;
 using FDS.RequestTracking.Storage;
 using Microsoft.AspNetCore.Http;
 
@@ -26,32 +25,18 @@ public class ClientService : IClientService
 
     public async Task<Response<ClientDto>> AddAsync(ClientRequestDto request)
     {
+        string requestId = string.Empty;
         try
         {
+            requestId = await _auditLogService.LogInfoAsync("[START] - Client creation process started.", request);
+
             string msg;
-
-            var requestId = _httpContextAccessor.HttpContext?.TraceIdentifier;
-
-            if (!string.IsNullOrEmpty(requestId))
-            {
-                // Retrieves the request data stored by the RequestDataFilter.
-                var requestData = RequestDataStorage.GetData(requestId);
-
-                if (requestData is not null)
-                {
-                    // Persisting the collected data in the audit database.
-                    await _auditLogService.LogInfoAsync($"Request Data - {requestData.Method} {requestData.Path}{requestData.QueryParams} - {requestData.Timestamp}");
-
-                    // Clears the data after persistence.
-                    RequestDataStorage.ClearData(requestId);
-                }
-            }
 
             if (await _clientRepository.ExistsByNameAsync(request.Name))
             {
                 msg = "A client with this name already exists.";
 
-                await _auditLogService.LogValidationErrorAsync(msg, request);
+                string x = await _auditLogService.LogValidationErrorAsync(msg, request);
 
                 return Result.CreateValidationError<ClientDto>(msg);
             }
@@ -69,6 +54,10 @@ public class ClientService : IClientService
         catch (Exception ex)
         {
             return Result.CreateError<ClientDto>($"An unexpected error occurred: {ex.Message}");
+        }
+        finally
+        {
+            RequestDataStorage.ClearData(requestId);
         }
     }
 
