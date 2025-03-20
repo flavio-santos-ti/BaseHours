@@ -30,14 +30,11 @@ public class ClientService : IClientService
         {
             requestId = await _auditLogService.LogInfoAsync("[START] - Client creation process started.", request);
 
-            string msg;
+            string msg = await _clientRepository.ExistsByNameAsync(request.Name);
 
-            if (await _clientRepository.ExistsByNameAsync(request.Name))
+            if (!string.IsNullOrEmpty(msg))
             {
-                msg = "A client with this name already exists.";
-
-                string x = await _auditLogService.LogValidationErrorAsync(msg, request);
-
+                await _auditLogService.LogValidationErrorAsync(msg, request);
                 return Result.CreateValidationError<ClientDto>(msg);
             }
 

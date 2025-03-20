@@ -26,8 +26,11 @@ public class ClientRepository : IClientRepository
             .Where(c => c.Name.Contains(name))
             .ToListAsync();
 
-    public async Task<bool> ExistsByNameAsync(string name) =>
-        await _context.Clients.AnyAsync(c => c.Name.ToLower() == name.ToLower());
+    public async Task<string> ExistsByNameAsync(string name)
+    {
+        bool exists = await _context.Clients.AnyAsync(c => c.Name.ToLower() == name.ToLower());
+        return exists ? "A client with this name already exists." : string.Empty;
+    }
 
     public async Task AddAsync(Client client)
     {
