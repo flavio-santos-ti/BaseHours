@@ -8,7 +8,7 @@ public interface IClientRepository
     Task<IEnumerable<Client>> GetAllAsync();
     Task<IEnumerable<Client>> SearchByNameAsync(string name);
     Task<string> ExistsByNameAsync(string name);
-    Task AddAsync(Client client);
+    Task<string> AddAsync(Client client);
     Task UpdateAsync(Client client);
     Task DeleteAsync(Guid id);
 }

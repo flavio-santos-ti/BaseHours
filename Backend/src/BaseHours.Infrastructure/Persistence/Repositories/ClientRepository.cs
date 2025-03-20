@@ -32,10 +32,11 @@ public class ClientRepository : IClientRepository
         return exists ? "A client with this name already exists." : string.Empty;
     }
 
-    public async Task AddAsync(Client client)
+    public async Task<string> AddAsync(Client client)
     {
         await _context.Clients.AddAsync(client);
         await _context.SaveChangesAsync();
+        return "Client created successfully.";
     }
 
     public async Task UpdateAsync(Client client)
