@@ -38,7 +38,7 @@ public class ClientService : IClientService
                 return Result.CreateValidationError<ClientDto>(msg);
             }
 
-            var client = new Client(Guid.NewGuid(), request.Name);
+            var client = new Client(request.Name);
             await _clientRepository.AddAsync(client);
             var clientDto = new ClientDto { Id = client.Id, Name = client.Name };
 
