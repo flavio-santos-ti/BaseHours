@@ -58,13 +58,19 @@ public class ClientService : IClientService
 
     public async Task<Response<bool>> DeleteAsync(Guid id)
     {
+        string requestId = string.Empty;
         try
         {
+            requestId = await _auditLogService.LogInfoAsync($"[START] - Client deletion process started for ID: {id}");
+            string msg = string.Empty;
+
             var client = await _clientRepository.GetByIdAsync(id);
 
             if (client is null)
             {
-                return Result.CreateNotFound<bool>("Client not found.");
+                msg = $"Client ID {id} not found.";
+                await _auditLogService.LogNotFoundAsync(msg);
+                return Result.CreateNotFound<bool>(msg);
             }
 
             await _clientRepository.DeleteAsync(id);
@@ -74,6 +80,10 @@ public class ClientService : IClientService
         catch (Exception ex)
         {
             return Result.CreateError<bool>($"An unexpected error occurred: {ex.Message}");
+        }
+        finally
+        {
+            RequestDataStorage.ClearData(requestId);
         }
     }
 
