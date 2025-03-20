@@ -39,14 +39,12 @@ public class ClientService : IClientService
             }
 
             var client = new Client(request.Name);
-            await _clientRepository.AddAsync(client);
+            msg = await _clientRepository.AddAsync(client);
             var clientDto = new ClientDto { Id = client.Id, Name = client.Name };
-
-            msg = "Client created successfully.";
 
             await _auditLogService.LogCreateAsync(msg, request, clientDto);
 
-            return Result.CreateSuccess("Client created successfully.", clientDto);
+            return Result.CreateSuccess(msg, clientDto);
         }
         catch (Exception ex)
         {
