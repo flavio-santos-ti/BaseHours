@@ -13,7 +13,7 @@ public class Client
         Name = string.Empty;
     } 
 
-    public Client(Guid id, string name)
+    public Client(string name)
     {
         Id = UuidV7.Generate();
         Name = !string.IsNullOrWhiteSpace(name) ? name : throw new ArgumentException("Client name cannot be empty.");
