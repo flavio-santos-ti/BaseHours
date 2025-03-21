@@ -117,27 +117,40 @@ public class ClientService : IClientService
 
     public async Task<Response<ClientDto>> GetByIdAsync(string id)
     {
+        string requestId = string.Empty;
+        string msg;
         try
         {
+            requestId = await _auditLogService.LogInfoAsync($"[START] - Retrieving client with ID: {id}");
+
             if (!Guid.TryParse(id, out Guid validGuid))
             {
-                return Result.CreateValidationError<ClientDto>("Invalid client ID format.");
+                msg = "Invalid client ID format.";
+                await _auditLogService.LogValidationErrorAsync(msg, id);
+
+                return Result.CreateValidationError<ClientDto>(msg);
             }
 
             var client = await _clientRepository.GetByIdAsync(validGuid);
 
             if (client is null)
             {
-                return Result.CreateNotFound<ClientDto>("Client not found.");
+                msg = $"Client with ID {id} not found.";
+                await _auditLogService.LogNotFoundAsync(msg, id);
+                return Result.CreateNotFound<ClientDto>(msg);
             }
 
             var clientDto = new ClientDto { Id = client.Id, Name = client.Name };
+            msg = $"Client with ID {id} retrieved successfully.";
+            await _auditLogService.LogReadAsync(msg, clientDto);
 
-            return Result.CreateRead<ClientDto>("Client retrieved successfully.", clientDto);
+            return Result.CreateRead<ClientDto>(msg, clientDto);
         }
         catch (Exception ex)
         {
-            return Result.CreateError<ClientDto>($"An unexpected error occurred: {ex.Message}");
+            msg = $"An unexpected error occurred while retrieving client with ID {id}: {ex.Message}";
+            await _auditLogService.LogErrorAsync(msg, id);
+            return Result.CreateError<ClientDto>(msg);
         }
     }
 
