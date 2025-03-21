@@ -121,7 +121,8 @@ public class ClientService : IClientService
         string msg;
         try
         {
-            requestId = await _auditLogService.LogInfoAsync($"[START] - Retrieving client with ID: {id}");
+            msg = $"[START] - Retrieving client with ID: {id}";
+            requestId = await _auditLogService.LogInfoAsync(msg);
 
             if (!Guid.TryParse(id, out Guid validGuid))
             {
@@ -156,17 +157,32 @@ public class ClientService : IClientService
 
     public async Task<Response<IEnumerable<ClientDto>>> SearchByNameAsync(string name)
     {
+        string requestId = string.Empty;
+        string msg = string.Empty;
         try
         {
+            msg = $"[START] - Searching clients by name: '{name}'";
+            requestId = await _auditLogService.LogInfoAsync(msg);
+
             var clients = await _clientRepository.SearchByNameAsync(name);
             var clientDtos = clients.Select(c => new ClientDto { Id = c.Id, Name = c.Name });
+            
+            msg = clients.Any() ? $"Clients found with the name '{name}'. Total: {clients.Count()}." : $"No clients found with the name '{name}'.";
 
-            return Result.CreateRead<IEnumerable<ClientDto>>(clients.Any() ? "Clients retrieved successfully." : "No clients found with the given name.", clientDtos);
+            await _auditLogService.LogReadAsync(msg, clientDtos);
+
+            return Result.CreateRead<IEnumerable<ClientDto>>(msg, clientDtos);
         }
         catch (Exception ex)
         {
-            return Result.CreateError<IEnumerable<ClientDto>>($"An unexpected error occurred: {ex.Message}");
-        }  
+            msg = $"An unexpected error occurred while searching clients by name '{name}': {ex.Message}";
+            await _auditLogService.LogErrorAsync(msg);
+            return Result.CreateError<IEnumerable<ClientDto>>(msg);
+        }
+        finally
+        {
+            RequestDataStorage.ClearData(requestId);
+        }
     }
 
     public async Task<Response<ClientDto>> UpdateAsync(ClientDto clientDto)
