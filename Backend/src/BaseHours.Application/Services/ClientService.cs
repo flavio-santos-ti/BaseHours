@@ -91,16 +91,27 @@ public class ClientService : IClientService
 
     public async Task<Response<IEnumerable<ClientDto>>> GetAllAsync()
     {
+        string requestId = string.Empty;
         try
         {
+            requestId = await _auditLogService.LogInfoAsync("[START] - Retrieving all clients.");
+
+            string msg = string.Empty;
+
             var clients = await _clientRepository.GetAllAsync();
             var clientDtos = clients.Select(c => new ClientDto { Id = c.Id, Name = c.Name });
+            msg = clients.Any() ? $"Clients retrieved successfully. Total: {clients.Count()}." : "No clients found.";
+            await _auditLogService.LogReadAsync(msg);
 
-            return Result.CreateRead<IEnumerable<ClientDto>>(clients.Any() ? "Clients retrieved successfully." : "No clients found.", clientDtos);
+            return Result.CreateRead<IEnumerable<ClientDto>>(msg, clientDtos);
         }
         catch (Exception ex)
         {
             return Result.CreateError<IEnumerable<ClientDto>>($"An unexpected error occurred: {ex.Message}");
+        }
+        finally
+        {
+            RequestDataStorage.ClearData(requestId);
         }
     }
 
