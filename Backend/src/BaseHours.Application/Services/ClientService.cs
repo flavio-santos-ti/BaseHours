@@ -75,7 +75,7 @@ public class ClientService : IClientService
 
             await _clientRepository.DeleteAsync(id);
             msg = $"Client ID {id} deleted successfully.";
-            await _auditLogService.LogDeleteAsync(msg, requestData: client);
+            await _auditLogService.LogDeleteAsync(msg);
 
             return Result.CreateDelete<bool>(msg);
         }
