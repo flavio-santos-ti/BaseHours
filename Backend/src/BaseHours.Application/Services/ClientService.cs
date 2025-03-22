@@ -55,6 +55,8 @@ public class ClientService : IClientService
         }
         finally
         {
+            msg = "Client creation process completed.";
+            await _auditLogService.LogEndAsync(msg);
             RequestDataStorage.ClearData(requestId);
         }
     }
