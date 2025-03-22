@@ -159,7 +159,8 @@ public class ClientService : IClientService
         }
         finally
         {
-            await _auditLogService.LogEndAsync("Client retrieval by ID process completed.");
+            msg = "Client retrieval by ID process completed.";
+            await _auditLogService.LogEndAsync(msg);
             RequestDataStorage.ClearData(requestId);
         }
     }
@@ -190,7 +191,8 @@ public class ClientService : IClientService
         }
         finally
         {
-            await _auditLogService.LogEndAsync("Client searc by name process completed.");
+            msg = "Client searc by name process completed.";
+            await _auditLogService.LogEndAsync(msg);
             RequestDataStorage.ClearData(requestId);
         }
     }
