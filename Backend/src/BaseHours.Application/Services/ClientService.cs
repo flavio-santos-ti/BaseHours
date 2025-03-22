@@ -245,6 +245,8 @@ public class ClientService : IClientService
         }
         finally
         {
+            msg = "Client update operation completed successfully.";
+            await _auditLogService.LogEndAsync(msg);
             RequestDataStorage.ClearData(requestId);
         }
     }
