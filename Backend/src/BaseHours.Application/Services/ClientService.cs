@@ -92,11 +92,11 @@ public class ClientService : IClientService
     public async Task<Response<IEnumerable<ClientDto>>> GetAllAsync()
     {
         string requestId = string.Empty;
+        string msg = string.Empty;
         try
         {
-            requestId = await _auditLogService.LogInfoAsync("[START] - Retrieving all clients.");
-
-            string msg = string.Empty;
+            msg = "Retrieving all clients.";
+            requestId = await _auditLogService.LogStartAsync(msg);
 
             var clients = await _clientRepository.GetAllAsync();
             var clientDtos = clients.Select(c => new ClientDto { Id = c.Id, Name = c.Name });
@@ -107,10 +107,14 @@ public class ClientService : IClientService
         }
         catch (Exception ex)
         {
-            return Result.CreateError<IEnumerable<ClientDto>>($"An unexpected error occurred: {ex.Message}");
+            msg = $"An unexpected error occurred while retrieving all clients: {ex.Message}";
+            await _auditLogService.LogErrorAsync(msg);
+            return Result.CreateError<IEnumerable<ClientDto>>(msg);
         }
         finally
         {
+            msg = "Client retrieval process completed.";
+            await _auditLogService.LogEndAsync(msg);
             RequestDataStorage.ClearData(requestId);
         }
     }
