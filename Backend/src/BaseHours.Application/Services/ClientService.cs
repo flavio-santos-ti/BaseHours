@@ -185,29 +185,49 @@ public class ClientService : IClientService
         }
     }
 
-    public async Task<Response<ClientDto>> UpdateAsync(ClientDto clientDto)
+    public async Task<Response<ClientDto>> UpdateAsync(ClientDto request)
     {
+        string requestId = string.Empty;
+        string msg = string.Empty;
+
         try
         {
-            var existingClient = await _clientRepository.GetByIdAsync(clientDto.Id);
+            msg = $"[START] - Client update process started for ID: {request.Id}";
+            requestId = await _auditLogService.LogInfoAsync(msg, request);
+
+            var existingClient = await _clientRepository.GetByIdAsync(request.Id);
             if (existingClient is null)
             {
+                msg = $"Client ID {request.Id} not found.";
+                await _auditLogService.LogNotFoundAsync(msg, request);
                 return Result.CreateNotFound<ClientDto>("Client not found.");
             }
 
-            var (isValid, errorMessage) = existingClient.UpdateName(clientDto.Name);
+            var (isValid, errorMessage) = existingClient.UpdateName(request.Name);
             if (!isValid)
             {
-                return Result.CreateValidationError<ClientDto>(errorMessage ?? "Unknown validation error");
+                msg = errorMessage ?? "Unknown validation error";
+                await _auditLogService.LogValidationErrorAsync(msg, request);
+                return Result.CreateValidationError<ClientDto>(msg);
             }
 
+            // Agora que a validação passou, criamos o DTO atualizado corretamente
+            msg = $"Client ID {request.Id} updated successfully.";
             var updatedClientDto = new ClientDto { Id = existingClient.Id, Name = existingClient.Name };
+
+            await _auditLogService.LogUpdateAsync(msg, request, updatedClientDto);
 
             return Result.CreateSuccess("Client updated successfully.", updatedClientDto);
         }
         catch (Exception ex)
         {
-            return Result.CreateError<ClientDto>($"An unexpected error occurred: {ex.Message}");
+            msg = $"An unexpected error occurred while updating client ID {request.Id}: {ex.Message}";
+            await _auditLogService.LogErrorAsync(msg, request);
+            return Result.CreateError<ClientDto>(msg);
+        }
+        finally
+        {
+            RequestDataStorage.ClearData(requestId);
         }
     }
 }
