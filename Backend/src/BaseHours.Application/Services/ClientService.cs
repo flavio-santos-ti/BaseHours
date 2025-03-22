@@ -121,8 +121,8 @@ public class ClientService : IClientService
         string msg;
         try
         {
-            msg = $"[START] - Retrieving client with ID: {id}";
-            requestId = await _auditLogService.LogInfoAsync(msg);
+            msg = $"Retrieving client with ID: {id}";
+            requestId = await _auditLogService.LogStartAsync(msg);
 
             if (!Guid.TryParse(id, out Guid validGuid))
             {
@@ -153,6 +153,11 @@ public class ClientService : IClientService
             await _auditLogService.LogErrorAsync(msg, id);
             return Result.CreateError<ClientDto>(msg);
         }
+        finally
+        {
+            await _auditLogService.LogEndAsync("Client retrieval by ID process completed.");
+            RequestDataStorage.ClearData(requestId);
+        }
     }
 
     public async Task<Response<IEnumerable<ClientDto>>> SearchByNameAsync(string name)
@@ -161,8 +166,8 @@ public class ClientService : IClientService
         string msg = string.Empty;
         try
         {
-            msg = $"[START] - Searching clients by name: '{name}'";
-            requestId = await _auditLogService.LogInfoAsync(msg);
+            msg = $"Searching clients by name: '{name}'";
+            requestId = await _auditLogService.LogStartAsync(msg);
 
             var clients = await _clientRepository.SearchByNameAsync(name);
             var clientDtos = clients.Select(c => new ClientDto { Id = c.Id, Name = c.Name });
@@ -181,6 +186,7 @@ public class ClientService : IClientService
         }
         finally
         {
+            await _auditLogService.LogEndAsync("Client searc by name process completed.");
             RequestDataStorage.ClearData(requestId);
         }
     }
