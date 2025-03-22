@@ -90,6 +90,8 @@ public class ClientService : IClientService
         }
         finally
         {
+            msg = "Client deletion operation completed successfully.";
+            await _auditLogService.LogEndAsync(msg);
             RequestDataStorage.ClearData(requestId);
         }
     }
