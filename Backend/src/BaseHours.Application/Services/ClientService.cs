@@ -7,6 +7,8 @@ using FDS.NetCore.ApiResponse.Models;
 using FDS.NetCore.ApiResponse.Results;
 using FDS.RequestTracking.Storage;
 using Microsoft.AspNetCore.Http;
+using Microsoft.VisualBasic;
+using Npgsql.EntityFrameworkCore.PostgreSQL.ValueGeneration;
 
 namespace BaseHours.Application.Services;
 
@@ -26,11 +28,12 @@ public class ClientService : IClientService
     public async Task<Response<ClientDto>> AddAsync(ClientRequestDto request)
     {
         string requestId = string.Empty;
+        string msg = string.Empty;
         try
         {
             requestId = await _auditLogService.LogInfoAsync("[START] - Client creation process started.", request);
 
-            string msg = await _clientRepository.ExistsByNameAsync(request.Name);
+            msg = await _clientRepository.ExistsByNameAsync(request.Name);
 
             if (!string.IsNullOrEmpty(msg))
             {
@@ -59,10 +62,10 @@ public class ClientService : IClientService
     public async Task<Response<bool>> DeleteAsync(Guid id)
     {
         string requestId = string.Empty;
+        string msg = string.Empty;
         try
         {
             requestId = await _auditLogService.LogInfoAsync($"[START] - Client deletion process started for ID: {id}");
-            string msg = string.Empty;
 
             var client = await _clientRepository.GetByIdAsync(id);
 
@@ -122,7 +125,7 @@ public class ClientService : IClientService
     public async Task<Response<ClientDto>> GetByIdAsync(string id)
     {
         string requestId = string.Empty;
-        string msg;
+        string msg = string.Empty;
         try
         {
             msg = $"Retrieving client with ID: {id}";
@@ -201,7 +204,6 @@ public class ClientService : IClientService
     {
         string requestId = string.Empty;
         string msg = string.Empty;
-
         try
         {
             msg = $"[START] - Client update process started for ID: {request.Id}";
