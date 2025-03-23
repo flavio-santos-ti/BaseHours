@@ -47,13 +47,11 @@ public class ClientRepository : IClientRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(Guid id)
+    public async Task<string> DeleteAsync(Client client)
     {
-        var client = await GetByIdAsync(id);
-        if (client is not null)
-        {
-            _context.Clients.Remove(client);
-            await _context.SaveChangesAsync();
-        }
+        var id = client.Id;
+        _context.Clients.Remove(client);
+        await _context.SaveChangesAsync();
+        return $"Client ID {id} deleted successfully.";
     }
 }
