@@ -9,6 +9,6 @@ public interface IClientRepository
     Task<IEnumerable<Client>> SearchByNameAsync(string name);
     Task<string> ExistsByNameAsync(string name);
     Task<string> AddAsync(Client client);
-    Task UpdateAsync(Client client);
+    Task<string> UpdateAsync(Client client);
     Task<string> DeleteAsync(Client client);
 }
