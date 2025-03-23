@@ -234,10 +234,10 @@ public class ClientService : IClientService
                 return Result.CreateValidationError<ClientDto>(msg);
             }
 
-            // Agora que a validação passou, criamos o DTO atualizado corretamente
-            msg = $"Client ID {request.Id} updated successfully.";
-            var updatedClientDto = new ClientDto { Id = existingClient.Id, Name = existingClient.Name };
+            msg = await _clientRepository.UpdateAsync(existingClient);
 
+            var updatedClientDto = new ClientDto { Id = existingClient.Id, Name = existingClient.Name };
+            
             await _auditLogService.LogUpdateAsync(msg, request, updatedClientDto);
 
             return Result.CreateSuccess("Client updated successfully.", updatedClientDto);

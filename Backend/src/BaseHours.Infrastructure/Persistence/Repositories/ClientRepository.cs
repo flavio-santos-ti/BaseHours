@@ -41,10 +41,11 @@ public class ClientRepository : IClientRepository
         return "Client created successfully.";
     }
 
-    public async Task UpdateAsync(Client client)
+    public async Task<string> UpdateAsync(Client client)
     {
         _context.Clients.Update(client);
         await _context.SaveChangesAsync();
+        return $"Client ID {client.Id} updated successfully.";
     }
 
     public async Task<string> DeleteAsync(Client client)
