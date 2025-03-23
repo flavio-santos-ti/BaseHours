@@ -20,7 +20,7 @@ public class Client
         CreatedAt = DateTime.Now;
     }
 
-    public (bool IsValid, string? ErrorMessage) UpdateName(string newName)
+    public (bool IsValid, string? ErrorMessage) TrySetName(string newName)
     {
         if (string.IsNullOrWhiteSpace(newName))
             return (false, "Name cannot be empty.");
