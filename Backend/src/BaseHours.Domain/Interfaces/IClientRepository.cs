@@ -10,5 +10,5 @@ public interface IClientRepository
     Task<string> ExistsByNameAsync(string name);
     Task<string> AddAsync(Client client);
     Task UpdateAsync(Client client);
-    Task DeleteAsync(Guid id);
+    Task<string> DeleteAsync(Client client);
 }
