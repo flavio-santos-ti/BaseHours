@@ -226,7 +226,7 @@ public class ClientService : IClientService
                 return Result.CreateNotFound<ClientDto>("Client not found.");
             }
 
-            var (isValid, errorMessage) = existingClient.UpdateName(request.Name);
+            var (isValid, errorMessage) = existingClient.TrySetName(request.Name);
             if (!isValid)
             {
                 msg = errorMessage ?? "Unknown validation error";
