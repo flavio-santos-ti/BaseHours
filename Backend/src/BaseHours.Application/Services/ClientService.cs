@@ -51,7 +51,9 @@ public class ClientService : IClientService
         }
         catch (Exception ex)
         {
-            return Result.CreateError<ClientDto>($"An unexpected error occurred: {ex.Message}");
+            msg = $"An unexpected error occurred: {ex.Message}";
+            await _auditLogService.LogErrorAsync(msg);
+            return Result.CreateError<ClientDto>(msg);
         }
         finally
         {
@@ -86,7 +88,9 @@ public class ClientService : IClientService
         }
         catch (Exception ex)
         {
-            return Result.CreateError<bool>($"An unexpected error occurred: {ex.Message}");
+            msg = $"An unexpected error occurred: {ex.Message}";
+            await _auditLogService.LogErrorAsync(msg);
+            return Result.CreateError<bool>();
         }
         finally
         {
