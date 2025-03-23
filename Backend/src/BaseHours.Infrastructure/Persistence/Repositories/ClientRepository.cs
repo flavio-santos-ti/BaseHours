@@ -21,10 +21,12 @@ public class ClientRepository : IClientRepository
         return await _context.Clients.AsNoTracking().ToListAsync();
     }
 
-    public async Task<IEnumerable<Client>> SearchByNameAsync(string name) =>
-        await _context.Clients
+    public async Task<IEnumerable<Client>> SearchByNameAsync(string name)
+    {
+        return await _context.Clients
             .Where(c => c.Name.Contains(name))
             .ToListAsync();
+    }
 
     public async Task<string> ExistsByNameAsync(string name)
     {

@@ -7,8 +7,6 @@ using FDS.NetCore.ApiResponse.Models;
 using FDS.NetCore.ApiResponse.Results;
 using FDS.RequestTracking.Storage;
 using Microsoft.AspNetCore.Http;
-using Microsoft.VisualBasic;
-using Npgsql.EntityFrameworkCore.PostgreSQL.ValueGeneration;
 
 namespace BaseHours.Application.Services;
 
@@ -81,6 +79,7 @@ public class ClientService : IClientService
             }
 
             await _clientRepository.DeleteAsync(id);
+            
             msg = $"Client ID {id} deleted successfully.";
             await _auditLogService.LogDeleteAsync(msg);
 
@@ -111,7 +110,9 @@ public class ClientService : IClientService
 
             var clients = await _clientRepository.GetAllAsync();
             var clientDtos = clients.Select(c => new ClientDto { Id = c.Id, Name = c.Name });
+            
             msg = clients.Any() ? $"Clients retrieved successfully. Total: {clients.Count()}." : "No clients found.";
+            
             await _auditLogService.LogReadAsync(msg);
 
             return Result.CreateRead<IEnumerable<ClientDto>>(msg, clientDtos);
@@ -158,6 +159,7 @@ public class ClientService : IClientService
 
             var clientDto = new ClientDto { Id = client.Id, Name = client.Name };
             msg = $"Client with ID {id} retrieved successfully.";
+            
             await _auditLogService.LogReadAsync(msg, clientDto);
 
             return Result.CreateRead<ClientDto>(msg, clientDto);
