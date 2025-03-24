@@ -240,7 +240,7 @@ public class ClientService : IClientService
             
             await _auditLogService.LogUpdateAsync(msg, request, updatedClientDto);
 
-            return Result.CreateSuccess("Client updated successfully.", updatedClientDto);
+            return Result.CreateUpdate(updatedClientDto);
         }
         catch (Exception ex)
         {
