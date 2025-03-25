@@ -45,7 +45,7 @@ public class ClientService : IClientService
 
             await _auditLogService.LogCreateAsync(msg, request, clientDto);
 
-            return Result.CreateSuccess(msg, clientDto);
+            return Result.CreateAdd(msg, clientDto);
         }
         catch (Exception ex)
         {
@@ -82,7 +82,7 @@ public class ClientService : IClientService
             
             await _auditLogService.LogDeleteAsync(msg);
 
-            return Result.CreateDelete<bool>(msg);
+            return Result.CreateRemove<bool>(msg);
         }
         catch (Exception ex)
         {
@@ -114,7 +114,7 @@ public class ClientService : IClientService
             
             await _auditLogService.LogReadAsync(msg);
 
-            return Result.CreateRead<IEnumerable<ClientDto>>(msg, clientDtos);
+            return Result.CreateGet<IEnumerable<ClientDto>>(msg, clientDtos);
         }
         catch (Exception ex)
         {
@@ -161,7 +161,7 @@ public class ClientService : IClientService
             
             await _auditLogService.LogReadAsync(msg, clientDto);
 
-            return Result.CreateRead<ClientDto>(msg, clientDto);
+            return Result.CreateGet<ClientDto>(msg, clientDto);
         }
         catch (Exception ex)
         {
@@ -193,7 +193,7 @@ public class ClientService : IClientService
 
             await _auditLogService.LogReadAsync(msg, clientDtos);
 
-            return Result.CreateRead<IEnumerable<ClientDto>>(msg, clientDtos);
+            return Result.CreateGet<IEnumerable<ClientDto>>(msg, clientDtos);
         }
         catch (Exception ex)
         {
@@ -240,7 +240,7 @@ public class ClientService : IClientService
             
             await _auditLogService.LogUpdateAsync(msg, request, updatedClientDto);
 
-            return Result.CreateUpdate(updatedClientDto);
+            return Result.CreateModify(updatedClientDto);
         }
         catch (Exception ex)
         {
