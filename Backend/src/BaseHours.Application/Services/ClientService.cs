@@ -29,7 +29,7 @@ public class ClientService : IClientService
         string msg = string.Empty;
         try
         {
-            requestId = await _auditLogService.LogInfoAsync("[START] - Client creation process started.", request);
+            requestId = await _auditLogService.LogStartAsync("Client creation process started.");
 
             msg = await _clientRepository.ExistsByNameAsync(request.Name);
 
@@ -67,7 +67,7 @@ public class ClientService : IClientService
         string msg = string.Empty;
         try
         {
-            requestId = await _auditLogService.LogInfoAsync($"[START] - Client deletion process started for ID: {id}");
+            requestId = await _auditLogService.LogStartAsync($"Client deletion process started for ID: {id}");
 
             var client = await _clientRepository.GetByIdAsync(id);
 
@@ -216,7 +216,7 @@ public class ClientService : IClientService
         try
         {
             msg = $"[START] - Client update process started for ID: {request.Id}";
-            requestId = await _auditLogService.LogInfoAsync(msg, request);
+            requestId = await _auditLogService.LogStartAsync(msg);
 
             var existingClient = await _clientRepository.GetByIdAsync(request.Id);
             if (existingClient is null)
