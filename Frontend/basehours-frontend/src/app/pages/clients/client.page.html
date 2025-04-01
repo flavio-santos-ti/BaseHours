@@ -1,8 +1,8 @@
 <h2 class="text-2xl font-bold text-gray-800 mb-4">Client List</h2>
 
-<div class="bg-white shadow rounded-lg overflow-hidden">
+<div class="bg-white shadow rounded-xl border border-gray-200 p-4 sm:p-6 max-w-4xl mx-auto">
   <ul role="list" class="divide-y divide-gray-200">
-    <li *ngFor="let client of clients" class="flex items-center justify-between gap-x-6 px-4 py-5 sm:px-6 hover:bg-gray-50 transition">
+    <li *ngFor="let client of clients" class="flex items-center justify-between gap-x-6 px-4 py-5 sm:px-6 hover:bg-gray-50 transition cursor-pointer">
       <div class="min-w-0">
         <p class="text-sm font-semibold leading-6 text-gray-900">{{ client.name }}</p>
         <p class="mt-1 text-xs leading-5 text-gray-500">Last seen 3h ago</p> <!-- ou "Online" se quiser -->
