@@ -48,7 +48,7 @@ namespace BaseHours.Configuration
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
-            // **Passando apenas a connection string para a Biblioteca**
+            // Just passing the connection string to the library.
             var auditLogConnectionString = configuration.GetConnectionString("AuditLogConnection")
                                            ?? "Host=localhost;Database=AuditLogDb;Username=defaultUser;Password=defaultPass";
 
