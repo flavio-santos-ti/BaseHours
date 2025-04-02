@@ -34,5 +34,13 @@ export class ClientPage implements OnInit {
       this.clients = this.clients.filter(c => c.id !== this.selectedClientId);
       this.selectedClientId = null;
     }
-  }  
+  } 
+  
+  editSelectedClient(): void {
+    if (this.selectedClientId) {
+      // Exemplo: navegação para tela de edição
+      console.log('Editar cliente com ID:', this.selectedClientId);
+    }
+  }
+   
 }
