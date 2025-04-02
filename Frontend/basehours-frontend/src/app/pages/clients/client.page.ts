@@ -22,4 +22,10 @@ export class ClientPage implements OnInit {
       }
     });
   }
+
+  selectedClientId: string | null = null;
+
+  selectClient(client: any): void {
+    this.selectedClientId = client.id;
+  }  
 }
