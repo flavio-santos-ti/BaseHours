@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ClientService } from '../../services/client.service';
+import { ConfirmDialogComponent } from '../../components/confirm-dialog.component';
+
 
 @Component({
   selector: 'app-client',                      
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    ConfirmDialogComponent 
+  ],
   templateUrl: './client.page.html',           
   styleUrls: ['./client.page.scss'],           
 })
@@ -53,5 +58,20 @@ export class ClientPage implements OnInit {
       });
     }
   }  
-   
+  
+  showConfirmDialog = false;
+
+  confirmDelete() {
+    this.showConfirmDialog = true;
+  }
+  
+  onDialogConfirm() {
+    this.deleteSelectedClient();
+    this.showConfirmDialog = false;
+  }
+  
+  onDialogCancel() {
+    this.showConfirmDialog = false;
+  }
+ 
 }
