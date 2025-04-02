@@ -28,4 +28,11 @@ export class ClientPage implements OnInit {
   selectClient(client: any): void {
     this.selectedClientId = client.id;
   }  
+
+  deleteSelectedClient(): void {
+    if (this.selectedClientId) {
+      this.clients = this.clients.filter(c => c.id !== this.selectedClientId);
+      this.selectedClientId = null;
+    }
+  }  
 }
