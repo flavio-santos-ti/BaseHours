@@ -25,4 +25,8 @@ export class ClientService {
   getClients(): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(this.apiUrl);
   }
+
+  deleteClient(clientId: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${clientId}`);
+  }  
 }
