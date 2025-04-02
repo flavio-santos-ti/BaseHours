@@ -5,14 +5,24 @@
     <!-- Header do card -->
     <div class="mb-6 border-b border-gray-300 pb-4 flex items-center justify-between -mx-4 sm:-mx-6 px-4 sm:px-6">
       <h2 class="text-xl font-bold text-gray-900">Client List</h2>
-      <button
-        type="button"
-        class="inline-flex items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      >
-        Adicionar
-      </button>
+      <div class="flex gap-2">
+        <button
+          type="button"
+          class="inline-flex items-center gap-2 rounded-md border border-red-500 text-red-600 px-4 py-2 text-sm font-semibold hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50"
+          [disabled]="!selectedClientId"
+          (click)="deleteSelectedClient()"
+        >
+          Excluir
+        </button>
+        <button
+          type="button"
+          class="inline-flex items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          Adicionar
+        </button>
+      </div>
     </div>
-
+    
     <!-- Lista de clientes -->
     <ul role="list" class="divide-y divide-gray-300">
       <li
