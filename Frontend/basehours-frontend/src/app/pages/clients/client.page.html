@@ -1,76 +1,80 @@
-<main class="min-h-screen bg-gray-200 px-4 flex items-start justify-center pt-4">
+<main class="min-h-screen bg-gray-200 px-4 flex justify-center pt-4">
 
+  <div class="bg-white shadow rounded-xl border border-gray-200 p-4 sm:p-6 w-full max-w-4xl mt-4 mb-8 min-h-[300px]">
 
-  <div class="bg-white shadow rounded-xl border border-gray-200 p-4 sm:p-6 w-full max-w-4xl mx-auto mt-4">
+    <!-- SPINNER CENTRALIZADO DENTRO DO CARD -->
+    <div *ngIf="isLoading" class="flex justify-center items-center h-full">
+      <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-600 border-solid"></div>
+    </div>
 
-    <!-- Header do card -->
-    <div class="mb-6 border-b border-gray-300 pb-4 flex items-center justify-between -mx-4 sm:-mx-6 px-4 sm:px-6">
-      <h2 class="text-xl font-bold text-gray-900">Client List</h2>
+    <!-- CONTEÚDO NORMAL -->
+    <ng-container *ngIf="!isLoading">
 
-      <div class="flex gap-2">
+      <!-- HEADER -->
+      <div class="mb-6 border-b border-gray-300 pb-4 flex items-center justify-between -mx-4 sm:-mx-6 px-4 sm:px-6">
+        <h2 class="text-xl font-bold text-gray-900">Client List</h2>
 
-        <button
-          type="button"
-          class="inline-flex items-center gap-2 rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50 cursor-pointer"
-          [disabled]="!selectedClientId"
-          (click)="editSelectedClient()"
-        >
-          Alterar
-        </button>
+        <div class="flex gap-2">
+          <button
+            type="button"
+            class="inline-flex items-center gap-2 rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50 cursor-pointer"
+            [disabled]="!selectedClientId"
+            (click)="editSelectedClient()"
+          >
+            Alterar
+          </button>
 
-        <button
-          type="button"
-          class="inline-flex items-center gap-2 rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50 cursor-pointer"
-          [disabled]="!selectedClientId"
-          (click)="confirmDelete()"
-        >
-          Excluir
-        </button>
-              
-        <button
-        type="button"
-        class="inline-flex items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        [routerLink]="['/client/create']"
-        >
-          Adicionar
-        </button>
-      
+          <button
+            type="button"
+            class="inline-flex items-center gap-2 rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50 cursor-pointer"
+            [disabled]="!selectedClientId"
+            (click)="confirmDelete()"
+          >
+            Excluir
+          </button>
+
+          <button
+            type="button"
+            class="inline-flex items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            [routerLink]="['/client/create']"
+          >
+            Adicionar
+          </button>
+        </div>
       </div>
 
-    </div>
-    
-    <!-- Lista de clientes -->
-    <ul role="list" class="divide-y divide-gray-300">
-      <li
-        *ngFor="let client of clients"
-        (click)="selectClient(client)"
-        class="flex items-center justify-between gap-x-6 px-4 py-5 sm:px-6 transition cursor-pointer"
-        [ngClass]="{
-          'bg-gray-100': selectedClientId === client.id,
-          'hover:bg-gray-200': true
-        }"
-      >
-        <div class="min-w-0">
-          <p class="text-sm font-semibold leading-6 text-gray-900">{{ client.name }}</p>
-          <p class="mt-1 text-xs leading-5 text-gray-500">Last seen 3h ago</p>
-        </div>
-        <div class="flex flex-col items-end">
-          <p class="text-sm font-medium leading-6 text-gray-900">Client Role</p>
-          <div class="mt-1 flex items-center gap-x-1.5">
-            <div class="flex-none rounded-full bg-emerald-500/20 p-1">
-              <div class="h-1.5 w-1.5 rounded-full bg-emerald-500"></div>
-            </div>
-            <p class="text-xs leading-5 text-gray-500">Online</p>
+      <!-- LISTA DE CLIENTES -->
+      <ul role="list" class="divide-y divide-gray-300">
+        <li
+          *ngFor="let client of clients"
+          (click)="selectClient(client)"
+          class="flex items-center justify-between gap-x-6 px-4 py-5 sm:px-6 transition cursor-pointer"
+          [ngClass]="{
+            'bg-gray-100': selectedClientId === client.id,
+            'hover:bg-gray-200': true
+          }"
+        >
+          <div class="min-w-0">
+            <p class="text-sm font-semibold leading-6 text-gray-900">{{ client.name }}</p>
+            <p class="mt-1 text-xs leading-5 text-gray-500">Last seen 3h ago</p>
           </div>
-        </div>
-      </li>
-    </ul>
+          <div class="flex flex-col items-end">
+            <p class="text-sm font-medium leading-6 text-gray-900">Client Role</p>
+            <div class="mt-1 flex items-center gap-x-1.5">
+              <div class="flex-none rounded-full bg-emerald-500/20 p-1">
+                <div class="h-1.5 w-1.5 rounded-full bg-emerald-500"></div>
+              </div>
+              <p class="text-xs leading-5 text-gray-500">Online</p>
+            </div>
+          </div>
+        </li>
+      </ul>
 
+    </ng-container>
   </div>
-  
 </main>
 
-<!-- Modal de confirmação -->
+<!-- MODAL DE CONFIRMAÇÃO -->
 <app-confirm-dialog
   *ngIf="showConfirmDialog"
   [message]="'Tem certeza que deseja excluir este cliente?'"
