@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { ClientService } from '../../services/client.service';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog.component';
 
@@ -9,7 +10,8 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog.componen
   standalone: true,
   imports: [
     CommonModule,
-    ConfirmDialogComponent 
+    ConfirmDialogComponent,
+    RouterModule 
   ],
   templateUrl: './client.page.html',           
   styleUrls: ['./client.page.scss'],           
