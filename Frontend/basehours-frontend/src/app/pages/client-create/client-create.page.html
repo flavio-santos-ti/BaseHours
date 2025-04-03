@@ -1,29 +1,48 @@
-<main class="max-w-xl mx-auto mt-10 p-6 bg-white rounded shadow">
-  <h1 class="text-2xl font-bold mb-6">Create New Client</h1>
+<main class="min-h-screen bg-gray-200 px-4 pt-4">
 
-  <div
-    *ngIf="errorMessage"
-    class="mb-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded"
-  >
-    {{ errorMessage }}
-  </div>
+  <div class="max-w-xl mx-auto bg-white p-6 rounded shadow mt-4">
+    
+    <h1 class="text-2xl font-bold mb-6">Create New Client</h1>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="mb-6">
-      <label class="block font-medium mb-1">Name</label>
-      <input
-        formControlName="name"
-        type="text"
-        class="w-full border rounded px-3 py-2"
-      />
+    <!-- ERRO -->
+    <div
+      *ngIf="errorMessage"
+      class="mb-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded"
+    >
+      {{ errorMessage }}
     </div>
 
-    <button
-      type="submit"
-      class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-      [disabled]="form.invalid"
-    >
-      Save
-    </button>
-  </form>
+    <!-- FORMULÁRIO -->
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="mb-6">
+        <label class="block font-medium mb-1">Name</label>
+
+        <input
+          formControlName="name"
+          type="text"
+          class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      
+      </div>
+
+      <!-- BOTÕES -->
+      <div class="flex gap-4">
+        <button
+          type="submit"
+          class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          [disabled]="form.invalid"
+        >
+          Save
+        </button>
+
+        <button
+          type="button"
+          class="border border-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-100"
+          (click)="router.navigate([''])"
+        >
+          Voltar
+        </button>
+      </div>
+    </form>
+  </div>
 </main>
