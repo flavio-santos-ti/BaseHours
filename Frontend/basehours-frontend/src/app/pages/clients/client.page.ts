@@ -19,19 +19,31 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog.componen
 export class ClientPage implements OnInit {    
 
   clients: any[] = [];
+  selectedClientId: string | null = null;
+  isLoading = false;
 
   constructor(private clientService: ClientService) {}
 
   ngOnInit(): void {
-    this.clientService.getClients().subscribe(response => {
-      if (response.isSuccess) {
-        this.clients = response.data;
+    this.loadClients();
+  }
+
+
+  loadClients() {
+    this.isLoading = true;
+  
+    this.clientService.getClients().subscribe({
+      next: (clients) => {
+        this.clients = clients.data;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Erro ao carregar clientes:', error);
+        this.isLoading = false;
       }
     });
   }
-
-  selectedClientId: string | null = null;
-
+  
   selectClient(client: any): void {
     this.selectedClientId = client.id;
   }  
