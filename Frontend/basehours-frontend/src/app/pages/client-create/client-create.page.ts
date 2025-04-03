@@ -20,7 +20,7 @@ export class ClientCreatePage {
   constructor(
     private fb: FormBuilder,
     private clientService: ClientService,
-    private router: Router
+    public router: Router
   ) {}
 
   onSubmit() {
