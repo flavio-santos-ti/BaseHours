@@ -1,6 +1,8 @@
 ﻿using BaseHours.Domain.Entities;
 using BaseHours.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
+using System.Text;
 
 namespace BaseHours.Infrastructure.Persistence.Repositories;
 
@@ -30,10 +32,13 @@ public class ClientRepository : IClientRepository
 
     public async Task<string> ExistsByNameAsync(string name)
     {
-        bool exists = await _context.Clients.AnyAsync(c => c.Name.ToLower() == name.ToLower());
+        string normalizedInput = NormalizeName(name);
+
+        bool exists = await _context.Clients
+            .AnyAsync(c => NormalizeName(c.Name) == normalizedInput);
+
         return exists ? "A client with this name already exists." : string.Empty;
     }
-
     public async Task<string> AddAsync(Client client)
     {
         await _context.Clients.AddAsync(client);
@@ -54,5 +59,27 @@ public class ClientRepository : IClientRepository
         _context.Clients.Remove(client);
         await _context.SaveChangesAsync();
         return $"Client ID {id} deleted successfully.";
+    }
+
+    private static string NormalizeName(string input)
+    {
+        if (string.IsNullOrWhiteSpace(input))
+            return string.Empty;
+
+        string normalizedFormD = input.Normalize(NormalizationForm.FormD);
+        var withoutDiacritics = new StringBuilder();
+
+        foreach (char c in normalizedFormD)
+        {
+            var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
+            if (unicodeCategory != UnicodeCategory.NonSpacingMark)
+                withoutDiacritics.Append(c);
+        }
+
+        return withoutDiacritics
+            .ToString()
+            .Normalize(NormalizationForm.FormC)
+            .Trim()
+            .ToUpperInvariant();
     }
 }
