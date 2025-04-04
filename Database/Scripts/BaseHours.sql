@@ -33,13 +33,17 @@ CREATE TABLE email_verification_tokens (
 CREATE TABLE clients (
     id UUID PRIMARY KEY, -- The .NET Core backend should generate a UUID v7 before inserting
     name VARCHAR(200) NOT NULL,
+    normalized_name varchar(200) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+create unique index ix_clients_normalized_name on clients(normalized_name);
 
 -- Stores project information
 CREATE TABLE projects (
     id UUID PRIMARY KEY, -- The .NET Core backend should generate a UUID v7 before inserting
     name VARCHAR(200) NOT NULL,
+    NormalizedName VARCHAR(255) NOT NULL;
     client_id UUID REFERENCES clients(id) ON DELETE CASCADE, -- Link to the client
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
