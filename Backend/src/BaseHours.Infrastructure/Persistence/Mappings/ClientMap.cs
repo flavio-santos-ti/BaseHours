@@ -30,7 +30,7 @@ public class ClientMap : IEntityTypeConfiguration<Client>
             .IsUnique()
             .HasDatabaseName("ix_clients_normalized_name");
 
-        builder.HasIndex(c => c.Name) // Creating a unique index on the name
+        builder.HasIndex(c => c.Name) 
             .IsUnique();
 
         builder.Property(c => c.CreatedAt)
