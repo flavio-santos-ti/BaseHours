@@ -21,6 +21,15 @@ public class ClientMap : IEntityTypeConfiguration<Client>
             .HasMaxLength(200)
             .HasColumnName("name");
 
+        builder.Property(c => c.NormalizedName)
+            .IsRequired()
+            .HasMaxLength(255)
+            .HasColumnName("normalized_name");
+
+        builder.HasIndex(c => c.NormalizedName)
+            .IsUnique()
+            .HasDatabaseName("ix_clients_normalized_name");
+
         builder.HasIndex(c => c.Name) // Creating a unique index on the name
             .IsUnique();
 
