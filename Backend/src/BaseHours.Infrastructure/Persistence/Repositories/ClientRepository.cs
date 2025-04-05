@@ -32,13 +32,14 @@ public class ClientRepository : IClientRepository
 
     public async Task<string> ExistsByNameAsync(string name)
     {
-        string normalizedInput = NormalizeName(name);
+        string normalizedName = NormalizeName(name);
 
         bool exists = await _context.Clients
-            .AnyAsync(c => NormalizeName(c.Name) == normalizedInput);
+            .AnyAsync(c => c.NormalizedName == normalizedName);
 
         return exists ? "A client with this name already exists." : string.Empty;
     }
+
     public async Task<string> AddAsync(Client client)
     {
         await _context.Clients.AddAsync(client);
