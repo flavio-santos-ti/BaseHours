@@ -1,6 +1,5 @@
 ﻿using FDS.UuidV7.NetCore;
-using System.Globalization;
-using System.Text;
+using TextNormalizer;
 
 namespace BaseHours.Domain.Entities;
 
@@ -21,7 +20,7 @@ public class Client
     {
         Id = UuidV7.Generate();
         Name = !string.IsNullOrWhiteSpace(name) ? name : throw new ArgumentException("Client name cannot be empty.");
-        NormalizedName = NormalizeName(name);
+        NormalizedName = Normalizer.Normalize(name);
         CreatedAt = DateTime.Now;
     }
 
@@ -34,29 +33,7 @@ public class Client
             return (false, "Name must have at least 3 characters.");
 
         Name = newName;
-        NormalizedName = NormalizeName(newName);
+        NormalizedName = Normalizer.Normalize(newName);
         return (true, null);
-    }
-
-    public static string NormalizeName(string input)
-    {
-        if (string.IsNullOrWhiteSpace(input))
-            return string.Empty;
-
-        string normalizedFormD = input.Normalize(NormalizationForm.FormD);
-        var withoutDiacritics = new StringBuilder();
-
-        foreach (char c in normalizedFormD)
-        {
-            var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
-            if (unicodeCategory != UnicodeCategory.NonSpacingMark)
-                withoutDiacritics.Append(c);
-        }
-
-        return withoutDiacritics
-            .ToString()
-            .Normalize(NormalizationForm.FormC)
-            .Trim()
-            .ToUpperInvariant();
     }
 }
