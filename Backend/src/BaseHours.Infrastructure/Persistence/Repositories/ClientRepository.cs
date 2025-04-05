@@ -3,6 +3,7 @@ using BaseHours.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using System.Text;
+using TextNormalizer;
 
 namespace BaseHours.Infrastructure.Persistence.Repositories;
 
@@ -32,7 +33,7 @@ public class ClientRepository : IClientRepository
 
     public async Task<string> ExistsByNameAsync(string name)
     {
-        string normalizedName = NormalizeName(name);
+        string normalizedName = Normalizer.Normalize(name);
 
         bool exists = await _context.Clients
             .AnyAsync(c => c.NormalizedName == normalizedName);
@@ -60,27 +61,5 @@ public class ClientRepository : IClientRepository
         _context.Clients.Remove(client);
         await _context.SaveChangesAsync();
         return $"Client ID {id} deleted successfully.";
-    }
-
-    private static string NormalizeName(string input)
-    {
-        if (string.IsNullOrWhiteSpace(input))
-            return string.Empty;
-
-        string normalizedFormD = input.Normalize(NormalizationForm.FormD);
-        var withoutDiacritics = new StringBuilder();
-
-        foreach (char c in normalizedFormD)
-        {
-            var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
-            if (unicodeCategory != UnicodeCategory.NonSpacingMark)
-                withoutDiacritics.Append(c);
-        }
-
-        return withoutDiacritics
-            .ToString()
-            .Normalize(NormalizationForm.FormC)
-            .Trim()
-            .ToUpperInvariant();
     }
 }
