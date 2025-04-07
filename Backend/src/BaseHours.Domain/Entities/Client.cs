@@ -20,7 +20,7 @@ public class Client
     {
         Id = UuidV7.Generate();
         Name = !string.IsNullOrWhiteSpace(name) ? name : throw new ArgumentException("Client name cannot be empty.");
-        NormalizedName = Normalizer.Normalize(name);
+        NormalizedName = Normalizer.NormalizeText(name);
         CreatedAt = DateTime.Now;
     }
 
@@ -33,7 +33,7 @@ public class Client
             return (false, "Name must have at least 3 characters.");
 
         Name = newName;
-        NormalizedName = Normalizer.Normalize(newName);
+        NormalizedName = Normalizer.NormalizeText(newName);
         return (true, null);
     }
 }

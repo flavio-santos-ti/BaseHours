@@ -1,8 +1,6 @@
 ﻿using BaseHours.Domain.Entities;
 using BaseHours.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Globalization;
-using System.Text;
 using TextNormalizer;
 
 namespace BaseHours.Infrastructure.Persistence.Repositories;
@@ -33,7 +31,7 @@ public class ClientRepository : IClientRepository
 
     public async Task<string> ExistsByNameAsync(string name)
     {
-        string normalizedName = Normalizer.Normalize(name);
+        string normalizedName = Normalizer.NormalizeText(name);
 
         bool exists = await _context.Clients
             .AnyAsync(c => c.NormalizedName == normalizedName);
