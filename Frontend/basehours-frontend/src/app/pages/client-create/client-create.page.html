@@ -1,8 +1,6 @@
 <main class="min-h-screen bg-gray-200 px-4 pt-4">
-
   <div class="max-w-xl mx-auto bg-white p-6 rounded shadow mt-4">
-    
-    <h1 class="text-2xl font-bold mb-6">Create New Client</h1>
+    <h1 class="text-2xl font-bold mb-6">Novo Cliente</h1>
 
     <!-- ERRO -->
     <div
@@ -15,26 +13,52 @@
     <!-- FORMULÁRIO -->
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="mb-6">
-        <label class="block font-medium mb-1">Name</label>
+        <label class="block font-medium mb-1">Nome</label>
 
         <input
           formControlName="name"
           type="text"
           class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-      
       </div>
 
       <!-- BOTÕES -->
       <div class="flex gap-4">
+        <!-- BOTÃO SALVAR COM LOADING -->
         <button
           type="submit"
-          class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-          [disabled]="form.invalid"
+          class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+          [disabled]="form.invalid || isLoading"
         >
-          Salvar
+          <ng-container *ngIf="!isLoading; else loadingTpl">Salvar</ng-container>
+          <ng-template #loadingTpl>
+            <span class="flex items-center gap-2">
+              <svg
+                class="animate-spin h-4 w-4 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 100 16v-4l-3 3 3 3v-4a8 8 0 01-8-8z"
+                ></path>
+              </svg>
+              Salvando...
+            </span>
+          </ng-template>
         </button>
 
+        <!-- BOTÃO VOLTAR (MANTIDO COMO ESTÁ) -->
         <button
           type="button"
           class="border border-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-100"
