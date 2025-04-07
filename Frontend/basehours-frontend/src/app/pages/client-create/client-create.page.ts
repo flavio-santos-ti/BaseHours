@@ -29,14 +29,6 @@ export class ClientCreatePage {
     if (this.form.valid) {
       this.clientService
         .createClient(this.form.value as { name: string })
-        .subscribe(() => {
-          this.router.navigate(['/client']);
-        });
-    }
-
-    if (this.form.valid) {
-      this.clientService
-        .createClient(this.form.value as { name: string })
         .subscribe({
           next: () => this.router.navigate(['/client']),
           error: (error) => {
