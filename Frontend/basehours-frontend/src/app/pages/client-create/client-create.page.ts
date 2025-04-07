@@ -12,6 +12,7 @@ import { ClientService } from '../../services/client.service';
 })
 export class ClientCreatePage {
   errorMessage = '';
+  isLoading = false;
 
   form = this.fb.group({
     name: ['', Validators.required],
@@ -25,19 +26,24 @@ export class ClientCreatePage {
 
   onSubmit() {
     this.errorMessage = '';
+    this.isLoading = true;
 
     if (this.form.valid) {
       this.clientService
         .createClient(this.form.value as { name: string })
         .subscribe({
-          next: () => this.router.navigate(['/client']),
+          next: () => {
+            this.isLoading = false;
+            this.router.navigate(['/client']);
+          },
           error: (error) => {
-            this.errorMessage = error?.error?.message || 'Erro ao criar cliente.';
+            this.isLoading = false;
+            this.errorMessage =
+              error?.error?.message || 'Erro ao criar cliente.';
           },
         });
-    
-    }
-
+    } else {
+      this.isLoading = false;
+    }  
   }
-
 }
