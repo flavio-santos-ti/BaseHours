@@ -30,7 +30,7 @@ export class ClientService {
   }
 
   update(data: { id: string; name: string }): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}`, data);
+    return this.http.put<void>(`${this.apiUrl}`, data); 
   }
     
 }

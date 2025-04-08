@@ -73,5 +73,4 @@ export class ClientEditPage implements OnInit {
   goBack() {
     this.router.navigate(['/client']);
   }
-  
 }

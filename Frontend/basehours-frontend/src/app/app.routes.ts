@@ -27,7 +27,6 @@ export const routes: Routes = [
     path: 'clients/edit/:id',
     loadComponent: () =>
       import('./pages/client-edit/client-edit.page').then(m => m.ClientEditPage)
-  }
-  
+  } 
 
 ];
