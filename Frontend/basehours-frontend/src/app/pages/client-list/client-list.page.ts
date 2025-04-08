@@ -14,8 +14,8 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog.componen
     ConfirmDialogComponent,
     RouterModule 
   ],
-  templateUrl: './client.page.html',           
-  styleUrls: ['./client.page.scss'],           
+  templateUrl: './client-list.page.html',           
+  styleUrls: ['./client-list.page.scss'],           
 })
 export class ClientPage implements OnInit {    
 
