@@ -17,7 +17,7 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog.componen
   templateUrl: './client-list.page.html',           
   styleUrls: ['./client-list.page.scss'],           
 })
-export class ClientPage implements OnInit {    
+export class ClientListPage implements OnInit {    
 
   clients: any[] = [];
   selectedClientId: string | null = null;
