@@ -23,7 +23,17 @@
       </div>
 
       <!-- BOTÕES -->
-      <div class="flex gap-4">
+      <div class="flex justify-end gap-4">
+
+        <!-- BOTÃO VOLTAR (MANTIDO COMO ESTÁ) -->
+        <button
+          type="button"
+          class="border border-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-100"
+          (click)="router.navigate([''])"
+        >
+          Voltar
+        </button>
+
         <!-- BOTÃO SALVAR COM LOADING -->
         <button
           type="submit"
@@ -58,14 +68,7 @@
           </ng-template>
         </button>
 
-        <!-- BOTÃO VOLTAR (MANTIDO COMO ESTÁ) -->
-        <button
-          type="button"
-          class="border border-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-100"
-          (click)="router.navigate([''])"
-        >
-          Voltar
-        </button>
+
       </div>
     </form>
   </div>
