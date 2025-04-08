@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { ClientService } from '../../services/client.service';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog.component';
 
@@ -21,8 +22,10 @@ export class ClientPage implements OnInit {
   clients: any[] = [];
   selectedClientId: string | null = null;
   isLoading = false;
+  isNavigating = false;
+  showConfirmDialog = false;
 
-  constructor(private clientService: ClientService) {}
+  constructor(private clientService: ClientService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadClients();
@@ -72,8 +75,7 @@ export class ClientPage implements OnInit {
       });
     }
   }  
-  
-  showConfirmDialog = false;
+ 
 
   confirmDelete() {
     this.showConfirmDialog = true;
@@ -86,6 +88,16 @@ export class ClientPage implements OnInit {
   
   onDialogCancel() {
     this.showConfirmDialog = false;
+  }
+
+  goToCreatePage() {
+    if (this.isNavigating) return;
+  
+    this.isNavigating = true;
+  
+    this.router.navigate(['/client/create']).finally(() => {
+      this.isNavigating = false;
+    });
   }
  
 }
