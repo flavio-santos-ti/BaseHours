@@ -51,13 +51,12 @@ export class ClientListPage implements OnInit {
     this.selectedClientId = client.id;
   }  
 
-  editSelectedClient(): void {
-    if (this.selectedClientId) {
-      // Exemplo: navegação para tela de edição
-      console.log('Editar cliente com ID:', this.selectedClientId);
-    }
+  editSelectedClient() {
+    if (!this.selectedClientId) return;
+  
+    this.router.navigate(['/clients/edit', this.selectedClientId]);
   }
-
+  
   // Método para excluir o cliente selecionado
   deleteSelectedClient(): void {
     if (this.selectedClientId) {

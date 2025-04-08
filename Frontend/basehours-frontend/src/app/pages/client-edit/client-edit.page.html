@@ -1,0 +1,65 @@
+<main class="min-h-screen bg-gray-200 px-4 pt-4">
+  <div class="max-w-xl mx-auto bg-white p-6 rounded shadow mt-4">
+    <h1 class="text-2xl font-bold mb-6">Editar Cliente</h1>
+
+    <!-- ERRO -->
+    <div
+      *ngIf="errorMessage"
+      class="mb-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded"
+    >
+      {{ errorMessage }}
+    </div>
+
+    <!-- FORMULÁRIO -->
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="mb-6">
+        <label class="block font-medium mb-1">Nome</label>
+
+        <input
+          formControlName="name"
+          type="text"
+          class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      <!-- BOTÕES -->
+      <div class="flex justify-end gap-4">
+        <button
+          type="button"
+          class="border border-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-100"
+          (click)="goBack()"
+        >
+          Voltar
+        </button>
+
+        <button
+          type="submit"
+          class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 flex items-center gap-2"
+          [disabled]="form.invalid || isLoading"
+        >
+          <ng-container *ngIf="!isLoading; else spinner">
+            Salvar
+          </ng-container>
+
+          <ng-template #spinner>
+            <svg class="w-4 h-4 animate-spin text-white" fill="none" viewBox="0 0 24 24">
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+              ></path>
+            </svg>
+          </ng-template>
+        </button>
+      </div>
+    </form>
+  </div>
+</main>
