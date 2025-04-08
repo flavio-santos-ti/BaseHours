@@ -52,8 +52,9 @@ export class ClientListPage implements OnInit {
   }  
 
   editSelectedClient() {
-    if (!this.selectedClientId) return;
+    if (!this.selectedClientId || this.isNavigating) return;
   
+    this.isNavigating = true;
     this.router.navigate(['/clients/edit', this.selectedClientId]);
   }
   
