@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
-import { ClientPage } from './pages/clients/client.page';
+import { ClientPage } from './pages/clients/client-list.page';
 
 export const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./pages/clients/client.page').then(
+      import('./pages/clients/client-list.page').then(
         (m) => m.ClientPage
       ),
   },  
@@ -19,7 +19,7 @@ export const routes: Routes = [
   {
     path: 'client',
     loadComponent: () =>
-      import('./pages/clients/client.page').then(
+      import('./pages/clients/client-list.page').then(
         (m) => m.ClientPage
       ),
   }  
