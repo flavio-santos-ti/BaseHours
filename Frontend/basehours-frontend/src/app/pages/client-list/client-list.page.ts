@@ -59,11 +59,13 @@ export class ClientListPage implements OnInit {
     if (!this.selectedClientId || this.isEditing) return;
   
     this.isEditing = true;
+
     this.router.navigate(['/clients/edit', this.selectedClientId]);
   }
   
   // Método para excluir o cliente selecionado
   deleteSelectedClient(): void {
+
     if (this.selectedClientId) {
       this.clientService.deleteClient(this.selectedClientId).subscribe({
         next: () => {
@@ -114,7 +116,7 @@ export class ClientListPage implements OnInit {
     if (this.isAdding ) return;
   
     this.isAdding  = true;
-  
+
     this.router.navigate(['/client/create']).finally(() => {
       this.isAdding  = false;
     });

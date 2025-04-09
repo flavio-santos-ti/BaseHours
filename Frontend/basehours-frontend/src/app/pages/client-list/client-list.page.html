@@ -19,7 +19,7 @@
             type="button"
             (click)="editSelectedClient()"
             [disabled]="!selectedClientId || isEditing"
-            class="inline-flex items-center gap-2 rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50"
+            class="inline-flex items-center justify-center gap-2 rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50 min-w-[73px]"
             [ngClass]="{ 'cursor-pointer': selectedClientId && !isNavigating }"
           >
             <ng-container *ngIf="!isEditing; else spinnerEdit">
@@ -87,7 +87,7 @@
             type="button"
             (click)="goToCreatePage()"
             [disabled]="isAdding"
-            class="inline-flex items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="inline-flex items-center justify-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 min-w-[93px]"
           >
             <ng-container *ngIf="!isAdding; else spinner">
               Adicionar
