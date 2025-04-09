@@ -23,7 +23,9 @@ export class ClientListPage implements OnInit {
   selectedClientId: string | null = null;
   isLoading = false;
   isNavigating = false;
+  isDeleting = false;
   showConfirmDialog = false;
+
 
   constructor(private clientService: ClientService, private router: Router) {}
 
@@ -78,14 +80,31 @@ export class ClientListPage implements OnInit {
  
 
   confirmDelete() {
+    if (!this.selectedClientId || this.isDeleting) return;
+  
     this.showConfirmDialog = true;
   }
   
   onDialogConfirm() {
-    this.deleteSelectedClient();
-    this.showConfirmDialog = false;
-  }
+    if (!this.selectedClientId) return;
   
+    this.isDeleting = true;
+  
+    this.clientService.deleteClient(this.selectedClientId!).subscribe({
+      next: () => {
+        this.clients = this.clients.filter(c => c.id !== this.selectedClientId);
+        this.selectedClientId = null;
+        this.showConfirmDialog = false;
+        this.isDeleting = false;
+      },
+      error: () => {
+        this.showConfirmDialog = false;
+        this.isDeleting = false;
+        // Se tiver tratamento de erro, pode setar errorMessage aqui
+      },
+    });
+  }
+      
   onDialogCancel() {
     this.showConfirmDialog = false;
   }
