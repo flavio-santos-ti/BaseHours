@@ -24,6 +24,8 @@ export class ClientListPage implements OnInit {
   isLoading = false;
   isNavigating = false;
   isDeleting = false;
+  isAdding = false;
+  isEditing = false;
   showConfirmDialog = false;
 
 
@@ -54,9 +56,9 @@ export class ClientListPage implements OnInit {
   }  
 
   editSelectedClient() {
-    if (!this.selectedClientId || this.isNavigating) return;
+    if (!this.selectedClientId || this.isEditing) return;
   
-    this.isNavigating = true;
+    this.isEditing = true;
     this.router.navigate(['/clients/edit', this.selectedClientId]);
   }
   
@@ -77,7 +79,6 @@ export class ClientListPage implements OnInit {
       });
     }
   }  
- 
 
   confirmDelete() {
     if (!this.selectedClientId || this.isDeleting) return;
@@ -110,12 +111,12 @@ export class ClientListPage implements OnInit {
   }
 
   goToCreatePage() {
-    if (this.isNavigating) return;
+    if (this.isAdding ) return;
   
-    this.isNavigating = true;
+    this.isAdding  = true;
   
     this.router.navigate(['/client/create']).finally(() => {
-      this.isNavigating = false;
+      this.isAdding  = false;
     });
   }
  
