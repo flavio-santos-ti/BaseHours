@@ -15,6 +15,10 @@
         <h2 class="text-xl font-bold text-gray-900">Lista de Clientes</h2>
 
         <div class="flex gap-2">
+
+          <!-- EDIT BUTTON -->
+          <!-- Enabled only when a client is selected -->
+          <!-- Shows spinner if isEditing is true -->
           <button
             type="button"
             (click)="editSelectedClient()"
@@ -49,6 +53,10 @@
             </ng-template>
           </button>
                 
+          <!-- DELETE BUTTON -->
+          <!-- Enabled only when a client is selected -->
+          <!-- Shows spinner if isDeleting is true -->
+          <!-- Triggers confirmation modal before deleting -->
           <button
             type="button"
             (click)="confirmDelete()"
@@ -83,6 +91,10 @@
             </ng-template>
           </button>
           
+          <!-- ADD BUTTON -->
+          <!-- Navigates to create page -->
+          <!-- Shows spinner if isAdding is true -->
+          <!-- Button width stays fixed with min-w to avoid shrinking -->
           <button
             type="button"
             (click)="goToCreatePage()"
