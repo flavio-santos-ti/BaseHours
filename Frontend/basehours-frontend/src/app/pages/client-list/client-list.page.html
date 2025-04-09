@@ -2,7 +2,7 @@
 
   <div class="bg-white shadow rounded-xl border border-gray-200 p-4 sm:p-6 w-full max-w-4xl mt-4 mb-8 min-h-[300px]">
 
-    <!-- SPINNER CENTRALIZADO DENTRO DO CARD -->
+    <!-- CENTERED SPINNER INSIDE THE CARD -->
     <div *ngIf="isLoading" class="flex justify-center items-center h-full">
       <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-600 border-solid"></div>
     </div>
@@ -131,7 +131,7 @@
         </div>
       </div>
 
-      <!-- LISTA DE CLIENTES -->
+      <!-- CLIENT LIST -->
       <ul role="list" class="divide-y divide-gray-300">
         <li
           *ngFor="let client of clients"
@@ -162,7 +162,7 @@
   </div>
 </main>
 
-<!-- MODAL DE CONFIRMAÇÃO -->
+<!-- CONFIRMATION MODAL -->
 <app-confirm-dialog
   *ngIf="showConfirmDialog"
   [message]="'Tem certeza que deseja excluir este cliente?'"
