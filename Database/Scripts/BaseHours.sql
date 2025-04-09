@@ -40,13 +40,14 @@ CREATE TABLE clients (
 create unique index ix_clients_normalized_name on clients(normalized_name);
 
 -- Stores project information
-CREATE TABLE projects (
-    id UUID PRIMARY KEY, -- The .NET Core backend should generate a UUID v7 before inserting
-    name VARCHAR(200) NOT NULL,
-    NormalizedName VARCHAR(255) NOT NULL;
-    client_id UUID REFERENCES clients(id) ON DELETE CASCADE, -- Link to the client
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+create table projects (
+    id uuid primary key,
+    name varchar(200) not null,
+    normalized_name varchar(255) not null,
+    created_at timestamp not null
 );
+
+create unique index ix_projects_normalized_name on projects (normalized_name);
 
 -- Stores task information
 CREATE TABLE tasks (
