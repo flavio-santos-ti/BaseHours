@@ -6,7 +6,6 @@ using FDS.DbLogger.PostgreSQL.Published;
 using FDS.NetCore.ApiResponse.Models;
 using FDS.NetCore.ApiResponse.Results;
 using FDS.RequestTracking.Storage;
-using Microsoft.AspNetCore.Http;
 
 namespace BaseHours.Application.Services;
 
@@ -19,18 +18,15 @@ public class ProjectService : IProjectService
     private readonly IProjectRepository _projectRepository;
     private readonly IClientRepository _clientRepository;
     private readonly IAuditLogService _auditLogService;
-    private readonly IHttpContextAccessor _httpContextAccessor;
 
     public ProjectService(
         IProjectRepository projectRepository,
         IClientRepository clientRepository,
-        IAuditLogService auditLogService,
-        IHttpContextAccessor httpContextAccessor)
+        IAuditLogService auditLogService)
     {
         _projectRepository = projectRepository;
         _clientRepository = clientRepository;
         _auditLogService = auditLogService;
-        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<Response<ProjectDto>> AddAsync(ProjectRequestDto request)
