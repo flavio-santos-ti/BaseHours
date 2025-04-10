@@ -36,6 +36,15 @@ namespace BaseHours.Configuration
                 return new ClientService(clientRepository, auditLogServiceFactory("Client"), httpContextAccessor);
             });
 
+            services.AddScoped<IProjectService>(provider =>
+            {
+                var projectRepository = provider.GetRequiredService<IProjectRepository>();
+                var clientRepository = provider.GetRequiredService<IClientRepository>();
+                var auditLogServiceFactory = provider.GetRequiredService<Func<string, IAuditLogService>>();
+
+                return new ProjectService(projectRepository, clientRepository, auditLogServiceFactory("ProjectService"));
+            });
+
             return services;
         }
 
