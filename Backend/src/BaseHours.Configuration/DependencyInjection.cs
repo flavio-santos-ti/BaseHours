@@ -50,13 +50,16 @@ namespace BaseHours.Configuration
         private static IServiceCollection AddInfrastructureLayer(this IServiceCollection services, IConfiguration configuration)
         {
             // Configuration for timestamp compatibility in PostgreSQL
+            // Configuração para compatibilidade de timestamp no PostgreSQL
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
             // Registers ApplicationDbContext (MAIN DATABASE)
+            // Registra o ApplicationDbContext (BANCO DE DADOS PRINCIPAL)
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
             // Just passing the connection string to the library.
+            // Apenas repassa a connection string para a biblioteca.
             var auditLogConnectionString = configuration.GetConnectionString("AuditLogConnection")
                                            ?? "Host=localhost;Database=AuditLogDb;Username=defaultUser;Password=defaultPass";
 
@@ -64,8 +67,13 @@ namespace BaseHours.Configuration
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            // Registers repositories
+            // Registers ClientRepository for dependency injection
+            // Registra o ClientRepository para injeção de dependência
             services.AddScoped<IClientRepository, ClientRepository>();
+
+            // Registers ProjectRepository for dependency injection
+            // Registra o ProjectRepository para injeção de dependência
+            services.AddScoped<IProjectRepository, ProjectRepository>();
 
             return services;
         }
