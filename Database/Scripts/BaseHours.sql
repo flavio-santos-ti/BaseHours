@@ -48,7 +48,7 @@ create table projects (
     created_at timestamp not null
 );
 
-create unique index ix_projects_normalized_name on projects (normalized_name);
+create unique index ix_projects_client_normalized_name on projects (client_id, normalized_name);
 
 -- Stores task information
 CREATE TABLE tasks (
