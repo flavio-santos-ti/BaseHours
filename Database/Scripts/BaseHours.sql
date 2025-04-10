@@ -42,6 +42,7 @@ create unique index ix_clients_normalized_name on clients(normalized_name);
 -- Stores project information
 create table projects (
     id uuid primary key,
+    client_id uuid not null references clients(id),
     name varchar(200) not null,
     normalized_name varchar(255) not null,
     created_at timestamp not null
