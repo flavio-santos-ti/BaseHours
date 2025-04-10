@@ -40,9 +40,9 @@ public class ProjectMap : IEntityTypeConfiguration<Project>
 
         // Unique index on normalized_name
         // Índice único sobre normalized_name
-        builder.HasIndex(p => p.NormalizedName)
+        builder.HasIndex(p => new { p.ClientId, p.NormalizedName })
             .IsUnique()
-            .HasDatabaseName("ix_projects_normalized_name");
+            .HasDatabaseName("ix_projects_client_normalized_name");
 
         // Relationship: Project → Client (many-to-one)
         // Relacionamento: Project → Client (muitos para um)
