@@ -24,6 +24,10 @@ export class ClientCreatePage {
     public router: Router
   ) {}
 
+  goBack() {
+    this.router.navigate(['/clients']);
+  }
+
   onSubmit() {
     this.errorMessage = '';
     this.isLoading = true;

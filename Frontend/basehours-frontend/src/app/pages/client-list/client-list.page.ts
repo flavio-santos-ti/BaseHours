@@ -35,7 +35,6 @@ export class ClientListPage implements OnInit {
     this.loadClients();
   }
 
-
   loadClients() {
     this.isLoading = true;
   
@@ -114,7 +113,7 @@ export class ClientListPage implements OnInit {
 
   goToCreatePage() {
     if (this.isAdding ) return;
-    console.log("Entrou no método goToCreatePage quando clica no botão Adicionar");
+
     this.isAdding  = true;
 
     this.router.navigate(['/clients/create']).finally(() => {
