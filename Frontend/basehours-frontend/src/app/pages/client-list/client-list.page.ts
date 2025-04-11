@@ -114,10 +114,10 @@ export class ClientListPage implements OnInit {
 
   goToCreatePage() {
     if (this.isAdding ) return;
-  
+    console.log("Entrou no método goToCreatePage quando clica no botão Adicionar");
     this.isAdding  = true;
 
-    this.router.navigate(['/client/create']).finally(() => {
+    this.router.navigate(['/clients/create']).finally(() => {
       this.isAdding  = false;
     });
   }
