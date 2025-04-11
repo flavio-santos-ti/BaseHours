@@ -1,9 +1,25 @@
 <nav class="h-screen w-60 bg-gray-900 text-white py-4 pl-4 pr-0 shadow-md">
 
 
-  <h2 class="text-lg font-semibold mb-6">Menu</h2>
+  <h1 class="text-xl font-bold mb-6 tracking-tight">BaseHours</h1>
+
+  
   <ul class="space-y-2">
     <li>
+
+      <a
+        routerLink="/"
+        routerLinkActive="bg-gray-700 mr-3"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="block px-3 py-2 rounded hover:bg-gray-700"
+      >
+        Início
+      </a>
+    
+    </li>
+
+    <li>
+
       <a
         routerLink="/clients"
         routerLinkActive="bg-gray-700 mr-3"
@@ -11,7 +27,8 @@
       >
         Clientes
       </a>
+
     </li>
-    <!-- Futuras opções aqui -->
   </ul>
+      
 </nav>
